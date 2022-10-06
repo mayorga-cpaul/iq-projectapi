@@ -25,7 +25,9 @@ namespace SmartSolution.Domain.EconomicContext
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Solution> Solutions { get; set; } = null!;
         public virtual DbSet<User> Usuarios { get; set; } = null!;
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseCollation("Modern_Spanish_CI_AS");

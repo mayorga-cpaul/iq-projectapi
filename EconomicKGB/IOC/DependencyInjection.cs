@@ -22,6 +22,7 @@ namespace SmartSolution.API.IOC
             builder.Services.AddScoped<IExpenseApplication, ExpenseApplication>();
             builder.Services.AddScoped<IInvesmentAreaApplication, InvesmentAreaApplication>();
             builder.Services.AddScoped<IInvesmentEntityApplication, InvesmentEntityApplication>();
+            builder.Services.AddScoped<IEntryApplication, EntryApplication>();
 
             builder.Services.AddScoped<IConversionServices, ConversionServices>();
             builder.Services.AddScoped<IEconomicServices, EconomicServices>();
@@ -32,6 +33,7 @@ namespace SmartSolution.API.IOC
             builder.Services.AddScoped<IExpenseServices, ExpenseServices>();
             builder.Services.AddScoped<IInvesmentAreaServices, InvesmentAreaServices>();
             builder.Services.AddScoped<IInvesmentEntityServices, InvesmentEntityServices>();
+            builder.Services.AddScoped<IEntryService, EntryService>();
 
             builder.Services.AddScoped<IConversionRepository, ConversionRepository>();
             builder.Services.AddScoped<IEconomicRepository, EconomicRepository>();
@@ -42,6 +44,7 @@ namespace SmartSolution.API.IOC
             builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
             builder.Services.AddScoped<IInvestmentAreaRepository, InvestmentAreaRepository>();
             builder.Services.AddScoped<IInvesmentEntityRepository, InvesmentEntityRepository>();
+            builder.Services.AddScoped<IEntryRepository, EntryRepository>();
         }
     }
 }
