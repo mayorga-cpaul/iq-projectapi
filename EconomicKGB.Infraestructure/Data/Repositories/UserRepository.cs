@@ -58,7 +58,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                 throw;
             }
         }
-
+        //TODO: No se ocupa el name
         public async Task<bool> AccessToAppAsync(string email, string name, string password)
         {
             try

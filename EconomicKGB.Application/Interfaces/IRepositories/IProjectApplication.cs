@@ -11,20 +11,20 @@ namespace SmartSolution.Application.Interfaces.IRepositories
         /// <param name="ingresoProyectos"></param>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<bool> SetEntriesAsync(IEnumerable<ProjectEntry> ingresoProyectos, Int32 projectId);
+        Task<bool> SetEntriesAsync(IEnumerable<ProjectEntryDto> ingresoProyectos, Int32 projectId);
 
         /// <summary>
         /// Get entries by project id
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<IEnumerable<ProjectEntry>> GetEntriesAsync(Int32 projectId);
+        Task<IEnumerable<ProjectEntryDto>> GetEntriesAsync(Int32 projectId);
 
         /// <summary>
         /// Get projects by solution Id
         /// </summary>
         /// <param name="solution"></param>
         /// <returns></returns>
-        Task<IEnumerable<Project>> GetProjectsAsync(Int32 solution);
+        Task<IEnumerable<ProjectDto>> GetProjectsBySolAsync(Int32 solution);
     }
 }

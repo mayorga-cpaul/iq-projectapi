@@ -42,14 +42,14 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult> GetByIdAsync(Int32 userId)
+        [HttpGet("{idsolution}")]
+        public async Task<ActionResult> GetByIdAsync(Int32 idsolution)
         {
             try
             {
-                var projectDto = (await repository.GetAsync(userId));
+                var solutionDto = (await repository.GetAsync(idsolution));
 
-                return Ok(projectDto);
+                return Ok(solutionDto);
             }
             catch (Exception ex)
             {
@@ -58,14 +58,21 @@ namespace SmartSolution.API.Controllers
 
         }
 
-        [HttpDelete("{userId}")]
-        public async Task<ActionResult> DeleteAsync(Int32 userId)
+        [HttpDelete("{solutionid}")]
+        public async Task<ActionResult> DeleteAsync(Int32 solutionid)
         {
             try
             {
-                var solutionDto = (await repository.GetAsync(userId));
+                var existingItem = await repository.GetAsync(solutionid);
 
-                return Ok(solutionDto);
+                if (existingItem is null)
+                {
+                    return NotFound();
+                }
+
+                int result = await repository.DeleteAsync(solutionid);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -96,11 +103,11 @@ namespace SmartSolution.API.Controllers
 
         [HttpPost]
         [Route("setprojects")]
-        public async Task<ActionResult> SetProjectToSolutionAsync(IEnumerable<ProjectDto> projectDtos, Int32 projectId)
+        public async Task<ActionResult> SetProjectToSolutionAsync(IEnumerable<ProjectDto> projectDtos, Int32 solutionid)
         {
             try
             {
-                return Ok(await repository.SetProjectToSolutionAsync(projectDtos, projectId));
+                return Ok(await repository.SetProjectToSolutionAsync(projectDtos, solutionid));
             }
             catch (Exception ex)
             {
@@ -110,7 +117,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPost]
-        [Route("setoonetoproject")]
+        [Route("setoneproject")]
         public async Task<ActionResult> SetOneProjectToSolutionAsync(Int32 projectId, Int32 solutionId)
         {
             try
@@ -144,9 +151,9 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-
+        //TODO: este método del controller de la solucion tiene la misma finalidad que uno del controller de proyectos
         [HttpGet]
-        [Route("getprojectsbysolution")]
+        [Route("getprojectsbysolutionid")]
 
         public async Task<ActionResult<ProjectDto>> GetAllProjectsAsync(Int32 solutionId)
         {
@@ -166,7 +173,7 @@ namespace SmartSolution.API.Controllers
 
         [HttpGet]
         [Route("getsolutionsbyid")]
-
+        //TODO: ya hay un metodo con esta misma funcionalidad
         public async Task<ActionResult> GetSolutionByIdAsync(Int32 solutionId)
         {
             try
@@ -181,7 +188,22 @@ namespace SmartSolution.API.Controllers
             }
 
         }
+        [HttpGet]
+        [Route("getsolutionsbyemail")]
+        public async Task<ActionResult> GetSolutionByEmailAsync(string email)
+        {
+            try
+            {
+                var projects = (await repository.GetByUserEmailAsync(email));
 
+                return Ok(projects);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         #endregion
 
     }

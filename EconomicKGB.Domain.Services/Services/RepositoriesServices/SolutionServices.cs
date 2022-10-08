@@ -41,6 +41,19 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
 
         }
 
+        public async Task<IEnumerable<Solution>> GetByUserEmailAsync(string email)
+        {
+            try
+            {
+                return await solutionRepository.GetByUserEmailAsync(email);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<Solution> GetSolutionByIdAsync(Int32 id)
         {
             try

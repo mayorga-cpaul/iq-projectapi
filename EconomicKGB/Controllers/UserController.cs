@@ -50,9 +50,9 @@ namespace SmartSolution.API.Controllers
         {
             try
             {
-                var projectDto = (await repository.GetAsync(userId));
+                var userDto = (await repository.GetAsync(userId));
 
-                return Ok(projectDto);
+                return Ok(userDto);
             }
             catch (Exception ex)
             {
@@ -66,9 +66,16 @@ namespace SmartSolution.API.Controllers
         {
             try
             {
-                var solutionDto = (await repository.GetAsync(userId));
+                var existingItem = await repository.GetAsync(userId);
 
-                return Ok(solutionDto);
+                if (existingItem is null)
+                {
+                    return NotFound();
+                }
+
+                int result = await repository.DeleteAsync(userId);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -98,7 +105,7 @@ namespace SmartSolution.API.Controllers
         #region Get
 
         [HttpGet]
-        [Route("others/getbyname")]
+        [Route("getbyname")]
         public async Task<ActionResult> GetByNameAsync(string name)
         {
             try
@@ -114,7 +121,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("others/getbyemail")]
+        [Route("getbyemail")]
         public async Task<ActionResult> GetByEmailAsync(string name)
         {
             try
@@ -129,9 +136,9 @@ namespace SmartSolution.API.Controllers
             }
 
         }
-
+        //TODO: ya hay un metodo del controller de la solucion que hace lo mismo 
         [HttpGet]
-        [Route("others/getbyuserid")]
+        [Route("getsolutions/userid")]
         public async Task<ActionResult<SolutionDto>> GetByUserAsync(Int32 userId)
         {
             try

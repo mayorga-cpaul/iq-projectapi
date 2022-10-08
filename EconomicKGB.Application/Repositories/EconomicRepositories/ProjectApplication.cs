@@ -43,19 +43,24 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return projectDto;
         }
 
-        public Task<IEnumerable<ProjectEntry>> GetEntriesAsync(int projectId)
+        public async Task<IEnumerable<ProjectEntryDto>> GetEntriesAsync(int projectId)
         {
-            throw new NotImplementedException();
+            var entries = await projectServices.GetEntriesAsync(projectId);
+            var entriesDto = mapper.Map<IEnumerable<ProjectEntryDto>>(entries);
+            return entriesDto;
+        }
+        public async Task<IEnumerable<ProjectDto>> GetProjectsBySolAsync(int solution)
+        {
+            var projects = await projectServices.GetProjectsBySolAsync(solution);
+            var projectsDto = mapper.Map<IEnumerable<ProjectDto>>(projects);
+            return projectsDto;
         }
 
-        public Task<IEnumerable<Project>> GetProjectsAsync(int solution)
+        public async Task<bool> SetEntriesAsync(IEnumerable<ProjectEntryDto> ingresoProyectos, int projectId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SetEntriesAsync(IEnumerable<ProjectEntry> ingresoProyectos, int projectId)
-        {
-            throw new NotImplementedException();
+            var entries = mapper.Map<IEnumerable<ProjectEntry>>(ingresoProyectos);
+            var result = await projectServices.SetEntriesAsync(entries, projectId);
+            return result;
         }
 
         public async Task<bool> UpdateAsync(int id, ProjectDto entity)
@@ -64,5 +69,6 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             project.Id = id;
             return await projectServices.UpdateAsync(project);
         }
+        //TODO:  Hacer metodos para para obtener costos y gastos e implementarlos en el proyecto principal
     }
 }

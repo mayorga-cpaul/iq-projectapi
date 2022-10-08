@@ -54,6 +54,13 @@ public class SolutionApplication : ISolutionApplication
         return solutionDto;
     }
 
+    public async Task<IEnumerable<SolutionDto>> GetByUserEmailAsync(string email)
+    {
+        var solution = await solutionServices.GetByUserEmailAsync(email);
+        var solutionDto = mapper.Map<IEnumerable<SolutionDto>>(solution);
+        return solutionDto;
+    }
+
     public async Task<SolutionDto> GetSolutionByIdAsync(Int32 solutionId)
     {
         var solution = await solutionServices.GetAsync(solutionId);

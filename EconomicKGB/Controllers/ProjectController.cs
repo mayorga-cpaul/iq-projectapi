@@ -40,12 +40,12 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult> GetByIdAsync(Int32 userId)
+        [HttpGet("{projectid}")]
+        public async Task<ActionResult> GetByIdAsync(Int32 projectid)
         {
             try
             {
-                var projectDto = (await repository.GetAsync(userId));
+                var projectDto = (await repository.GetAsync(projectid));
 
                 return Ok(projectDto);
             }
@@ -56,14 +56,21 @@ namespace SmartSolution.API.Controllers
 
         }
 
-        [HttpDelete("{userId}")]
-        public async Task<ActionResult> DeleteAsync(Int32 userId)
+        [HttpDelete("{projectid}")]
+        public async Task<ActionResult> DeleteAsync(Int32 projectid)
         {
             try
             {
-                var projectDto = (await repository.GetAsync(userId));
+                var existingItem = await repository.GetAsync(projectid);
 
-                return Ok(projectDto);
+                if (existingItem is null)
+                {
+                    return NotFound();
+                }
+
+                int result = await repository.DeleteAsync(projectid);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -85,5 +92,51 @@ namespace SmartSolution.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #region new methods
+        [HttpGet]
+        [Route("getprojectsbysolutionid")]
+        public async Task<ActionResult<ProjectDto>> GetProjectsBySolAsync(Int32 solutionId)
+        {
+            try
+            {
+                var projects = (await repository.GetProjectsBySolAsync(solutionId));
+                return Ok(projects);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet]
+        [Route("getentries")]
+        public async Task<ActionResult<ProjectEntryDto>> GetAllEntriesAsync(Int32 projectid)
+        {
+            try
+            {
+                var projects = (await repository.GetEntriesAsync(projectid));
+
+                return Ok(projects);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpPost]
+        [Route("setentries")]
+        public async Task<ActionResult> SetEntryToProjectAsync(IEnumerable<ProjectEntryDto> projectEntries, Int32 projectid)
+        {
+            try
+            {
+                return Ok(await repository.SetEntriesAsync(projectEntries, projectid));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        #endregion
     }
 }

@@ -35,9 +35,12 @@ namespace SmartSolution.Application.Mappers.MappingDto
             CreateMap<ProjectExpense, ProjectExpenseDto>();
             CreateMap<ProjectEntry, ProjectEntryDto>();
             CreateMap<Interest, RateDto>();
+            CreateMap<Project, ProjectDto>();
             CreateMap<Serie, SerieDto>();
             CreateMap<Solution, SolutionDto>();
             CreateMap<User, UserDto>();
+            CreateMap<RateDto, Economic>();
+            CreateMap<Interest, RateDto>();
         }
     }
 }

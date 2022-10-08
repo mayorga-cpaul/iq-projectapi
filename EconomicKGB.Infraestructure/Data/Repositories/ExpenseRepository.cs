@@ -22,7 +22,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                 {
                     throw new ArgumentNullException(nameof(data));
                 }
-                return await Task.FromResult(repository.GastoProjects.Where(e => e.ProjectId == data.Id));
+                return await Task.FromResult(repository.GastoProjects.Where(e => e.ProjectId == projectId));
             }
             catch (Exception)
             {

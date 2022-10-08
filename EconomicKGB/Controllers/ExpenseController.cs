@@ -13,8 +13,48 @@ namespace SmartSolution.API.Controllers
         {
             this.repository = repository;
         }
+        #region CRUD 
+        [HttpPost]
+        public async Task<ActionResult> CreateAsync(ProjectExpenseDto projectExpenseDto)
+        {
+            try
+            {
+                return Ok(await repository.CreateAsync(projectExpenseDto));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet]
+        public async Task<ActionResult<ProjectExpenseDto>> GetAllAsync()
+        {
+            try
+            {
+                var expenses = (await repository.GetAllAsync());
 
-        [HttpPatch("{Id}, {ProjectExpenseDto}")]
+                return Ok(expenses);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("{expenseid}")]
+        public async Task<ActionResult> GetByIdAsync(Int32 expenseid)
+        {
+            try
+            {
+                var projectDto = (await repository.GetAsync(expenseid));
+
+                return Ok(projectDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPatch]
         public async Task<ActionResult> UpdateAsync(Int32 Id, ProjectExpenseDto projectCostDto)
         {
             try
@@ -57,8 +97,9 @@ namespace SmartSolution.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        #endregion
 
-        [HttpPost]
+        [HttpPost("setexpenses")]
         public async Task<ActionResult> SetExpensesAsync(IEnumerable<ProjectExpenseDto> gastoProjects, Int32 projectId)
         {
             try
@@ -71,7 +112,7 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("getexpensesbyprojectid")]
         public async Task<ActionResult<ProjectExpenseDto>> GetAllExpense(Int32 projectId)
         {
             try

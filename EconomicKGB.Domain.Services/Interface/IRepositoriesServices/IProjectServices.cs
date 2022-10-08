@@ -24,6 +24,6 @@ namespace SmartSolution.Domain.Services.Interface.IRepositoriesServices
         /// </summary>
         /// <param name="solution"></param>
         /// <returns></returns>
-        Task<IEnumerable<Project>> GetProjectsAsync(Int32 solution);
+        Task<IEnumerable<Project>> GetProjectsBySolAsync(Int32 solution);
     }
 }

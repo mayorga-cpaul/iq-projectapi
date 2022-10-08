@@ -27,12 +27,12 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<IEnumerable<Project>> GetProjectsAsync(int solution)
+        public async Task<IEnumerable<Project>> GetProjectsBySolAsync(int solution)
         {
             try
             {
 
-                return await projectRepository.GetProjectsAsync(solution);
+                return await projectRepository.GetProjectsBySolAsync(solution);
             }
             catch (Exception)
             {

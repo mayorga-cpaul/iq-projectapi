@@ -31,7 +31,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<Project>> GetProjectsAsync(Int32 solution)
+        public async Task<IEnumerable<Project>> GetProjectsBySolAsync(Int32 solution)
         {
             try
             {
