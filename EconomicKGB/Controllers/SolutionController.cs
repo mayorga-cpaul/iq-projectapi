@@ -31,6 +31,23 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
+        [Route("getLast")]
+        public async Task<ActionResult> GetLastAdded()
+        {
+            try
+            {
+                var solutionDto = (await repository.LastCreatedAsync());
+
+                return Ok(solutionDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpGet]
         [Route("getByIdAsync")]
         public async Task<ActionResult> GetByIdAsync(int idsolution)
         {

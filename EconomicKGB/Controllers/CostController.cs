@@ -38,7 +38,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("api/getCost")]
+        [Route("getCost")]
         public async Task<ActionResult<ProjectCostDto>> GetAllCostAsync(Int32 projectId)
         {
             try

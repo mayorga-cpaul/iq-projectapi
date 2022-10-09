@@ -77,7 +77,16 @@ namespace SmartSolution.Infraestructure.Data.Repositories
 
         public async Task<int> LastCreatedAsync()
         {
-            return await repository.Solutions.MaxAsync(e => e.Id);
+            try
+            {
+                return await repository.Solutions.MaxAsync(e => e.Id);
+            }
+            catch (Exception)
+            {
+
+                return 0;
+            }
+
         }
 
         public async Task<bool> SetSolutionToUser(Solution solution)

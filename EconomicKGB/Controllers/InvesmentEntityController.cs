@@ -17,8 +17,8 @@ namespace SmartSolution.API.Controllers
         [HttpPatch]
         public async Task<ActionResult> UpdateAsync(int Id, InvestmentEntityDto projectCostDto)
         {
-            //try
-            //{
+            try
+            {
                 var existingItem = await repository.GetAsync(Id);
 
                 if (existingItem == null)
@@ -27,11 +27,11 @@ namespace SmartSolution.API.Controllers
                 }
 
                 return Ok(await repository.UpdateAsync(Id, projectCostDto));
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete]

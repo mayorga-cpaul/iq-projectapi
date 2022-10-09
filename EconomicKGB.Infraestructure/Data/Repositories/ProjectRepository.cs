@@ -13,20 +13,6 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<Project>> GetAllProjectsAsync(int solutionId)
-        {
-            try
-            {
-                if (!await repository.Solutions.AnyAsync(e => e.Id == solutionId))
-                    throw new Exception("El usuario no existe");
-                return await Task.FromResult(repository.Projects.Where(p => p.SolutionId == solutionId));
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public async Task<IEnumerable<Project>> GetProjectsBySolAsync(Int32 solution)
         {
             try

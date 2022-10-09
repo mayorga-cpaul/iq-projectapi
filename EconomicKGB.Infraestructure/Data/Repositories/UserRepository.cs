@@ -32,7 +32,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                 {
                     string pass = Encoding.Default.GetString(bytes: entity.Password);
 
-                    using (var connection = repository.Database.GetDbConnection())
+                    using (var connection = new SqlConnection(repository.Database.GetConnectionString()))
                     {
                         var result = await connection.ExecuteAsync("sp_Registras", new
                         {
@@ -65,10 +65,10 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                return await Task.FromResult((ExistEmailAsync(email).Result 
+                return (await (ExistEmailAsync(email)) 
                     ? (password.Equals(DescryptPassword(email)) 
                     ? true : false) 
-                    : throw new Exception("Contraseña incorrecta")));
+                    : throw new Exception("Contraseña incorrecta"));
             }
             catch (Exception)
             {
@@ -80,7 +80,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                using (var connection = repository.Database.GetDbConnection())
+                using (var connection = new SqlConnection(repository.Database.GetConnectionString()))
                 {
                     _ = GetByEmailAsync(email);
                     var result = connection.Query<RecoverPassword>("Recover", new { email = email }, commandType: CommandType.StoredProcedure);

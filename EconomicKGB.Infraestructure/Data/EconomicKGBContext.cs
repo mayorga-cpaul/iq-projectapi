@@ -9,7 +9,7 @@ namespace SmartSolution.Domain.EconomicContext
         {
         }
 
-        public EconomicKGBContext(DbContextOptions<EconomicKGBContext> options)
+        public EconomicKGBContext(DbContextOptions options)
             : base(options)
         {
 
@@ -26,14 +26,14 @@ namespace SmartSolution.Domain.EconomicContext
         public virtual DbSet<Solution> Solutions { get; set; } = null!;
         public virtual DbSet<User> Usuarios { get; set; } = null!;
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer($"Data source=localhost, 1433; Initial Catalog=EconomicIE; User Id=SA; Password=1234");
-//            }
-//        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer($"Data source=localhost, 1433; Initial Catalog=EconomicIE; User Id=SA; Password=1234");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -272,6 +272,8 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.SolutionName).HasMaxLength(200);
+
+                entity.Property(e => e.Description).HasMaxLength(200);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Solutions)
