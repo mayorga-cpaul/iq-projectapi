@@ -2,10 +2,9 @@
 {
     public partial class SolutionDto
     {
-
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string SolutionName { get; set; } = String.Empty;
+        public string SolutionName { get; set; } = null!;
         public DateTime Date { get; set; }
     }
 }

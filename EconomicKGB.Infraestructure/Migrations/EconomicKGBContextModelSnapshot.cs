@@ -218,9 +218,6 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("image");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
@@ -271,6 +268,9 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TMAR")
+                        .HasColumnType("decimal(18,0)");
+
+                    b.Property<decimal>("TMARMixta")
                         .HasColumnType("decimal(18,0)");
 
                     b.Property<bool>("WithFinancement")
@@ -454,8 +454,8 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("image");
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

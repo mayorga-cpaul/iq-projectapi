@@ -15,8 +15,8 @@ namespace SmartSolution.API.Controllers
             this.repository = repository;
         }
 
-        [HttpPatch("{Id}, {InvesmentAreaDto}")]
-        public async Task<ActionResult> UpdateAsync(Int32 Id, InvesmentAreaDto projectCostDto)
+        [HttpPatch]
+        public async Task<ActionResult> UpdateAsync(int Id, InvesmentAreaDto projectCostDto)
         {
             try
             {
@@ -37,8 +37,8 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeleteAsync(Int32 id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -60,11 +60,11 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SetInvesmentAsync(IEnumerable<InvesmentAreaDto> gastoProjects, Int32 projectId)
+        public async Task<ActionResult> SetInvesmentAsync(InvesmentAreaDto gastoProjects)
         {
             try
             {
-                return Ok(await repository.SetInvesmentArea(gastoProjects, projectId));
+                return Ok(await repository.SetInvesmentArea(gastoProjects));
             }
             catch (Exception ex)
             {

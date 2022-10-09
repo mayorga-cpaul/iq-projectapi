@@ -27,11 +27,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<bool> SetInvesmentArea(IEnumerable<InvesmentArea> inversionProyectos, int projectId)
+        public async Task<bool> SetInvesmentArea(InvesmentArea inversionProyectos)
         {
             try
             {
-                return await investmentAreaRepository.SetInvesmentArea(inversionProyectos, projectId);
+                return await investmentAreaRepository.SetInvesmentArea(inversionProyectos);
             }
             catch (Exception)
             {

@@ -49,16 +49,16 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return mapper.Map<InvestmentEntityDto>(invesments);
         }
 
-        public async Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntities(int idSolution)
+        public async Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntitiesAsync(int idSolution)
         {
             var invesmentEntities = await repository.GetInvesmentEntities(idSolution);
             return mapper.Map<IEnumerable<InvestmentEntityDto>>(invesmentEntities);
         }
 
-        public async Task<bool> SetInvesmentEntity(IEnumerable<InvestmentEntityDto> entidadInvs, int projectId)
+        public async Task<bool> SetInvesmentEntityAsync(InvestmentEntityDto entidadInvs)
         {
-            var invesmentEntities = mapper.Map<IEnumerable<InvestmentEntity>>(entidadInvs);
-            return await repository.SetInvesmentEntity(invesmentEntities, projectId);
+            var invesmentEntities = mapper.Map<InvestmentEntity>(entidadInvs);
+            return await repository.SetInvesmentEntityAsync(invesmentEntities);
         }
 
         public async Task<bool> UpdateAsync(int id, InvestmentEntityDto entity)

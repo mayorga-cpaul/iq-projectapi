@@ -20,11 +20,11 @@ namespace SmartSolution.Services.Interface.IRepositoriesServices
         Task<InvestmentEntity> GetInvesmentEntities(Int32 projectId);
 
         /// <summary>
-        /// Add many Invesment Entities to project
+        /// Add one Invesment Entity to project
         /// </summary>
         /// <param name="entidadInvs"></param>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<bool> SetInvesmentEntity(IEnumerable<InvestmentEntity> entidadInvs, Int32 projectId);
+        Task<bool> SetInvesmentEntityAsync(InvestmentEntity entidadInvs);
     }
 }

@@ -42,7 +42,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
         }
         public async Task<IEnumerable<ProjectEntryDto>> GetAllEntryAsync(int projectId)
         {
-            var projectentry = await entryservices.GetAllEntry(projectId);
+            var projectentry = await entryservices.GetAllEntryAsync(projectId);
             var projectentryDTO = mapper.Map<IEnumerable<ProjectEntryDto>>(projectentry);
 
             return projectentryDTO;
@@ -55,10 +55,10 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return projectEntryDTO;
         }
 
-        public async Task<bool> SetEntryAsync(IEnumerable<ProjectEntryDto> entryProjects, int projectId)
+        public async Task<bool> SetEntryAsync(ProjectEntryDto entryProjects)
         {
-            var projectEntry = mapper.Map<IEnumerable<ProjectEntry>>(entryProjects);
-            return await entryservices.SetEntry(projectEntry, projectId);
+            var projectEntry = mapper.Map<ProjectEntry>(entryProjects);
+            return await entryservices.SetEntryAsync(projectEntry);
         }
 
         public async Task<bool> UpdateAsync(int id, ProjectEntryDto entity)

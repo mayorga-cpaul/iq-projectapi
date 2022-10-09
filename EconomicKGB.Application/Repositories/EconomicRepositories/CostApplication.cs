@@ -30,7 +30,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
 
         public async Task<IEnumerable<ProjectCostDto>> GetAllAsync()
         {
-            var projectCost = await costServices.GetAllAsync();    
+            var projectCost = await costServices.GetAllAsync();
             var projectCostDto = mapper.Map<IEnumerable<ProjectCostDto>>(projectCost);
 
             return projectCostDto;
@@ -38,7 +38,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
 
         public async Task<IEnumerable<ProjectCostDto>> GetAllCostAsync(int projectId)
         {
-            var projectCost = await costServices.GetAllCost(projectId);
+            var projectCost = await costServices.GetAllCostAsync(projectId);
             var projectCostDto = mapper.Map<IEnumerable<ProjectCostDto>>(projectCost);
 
             return projectCostDto;
@@ -51,10 +51,10 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return projectCostDto;
         }
 
-        public async Task<bool> SetCostAsync(IEnumerable<ProjectCostDto> costProjects, int projectId)
+        public async Task<bool> SetCostAsync(ProjectCostDto costProjects)
         {
-            var projectCost = mapper.Map<IEnumerable<ProjectCost>>(costProjects);
-            return await costServices.SetCost(projectCost, projectId);
+            var projectCost = mapper.Map<ProjectCost>(costProjects);
+            return await costServices.SetCostAsync(projectCost);
         }
 
         public async Task<bool> UpdateAsync(int id, ProjectCostDto entity)

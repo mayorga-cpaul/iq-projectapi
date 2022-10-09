@@ -26,11 +26,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
             }
         }
 
-        public async Task<IEnumerable<ProjectEntry>> GetAllEntry(int projectId)
+        public async Task<IEnumerable<ProjectEntry>> GetAllEntryAsync(int projectId)
         {
             try
             {
-                return await entryRepository.GetAllEntry(projectId);
+                return await entryRepository.GetAllEntryAsync(projectId);
             }
             catch (Exception)
             {
@@ -39,11 +39,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
             }
         }
 
-        public async Task<bool> SetEntry(IEnumerable<ProjectEntry> entryProjects, int projectId)
+        public async Task<bool> SetEntryAsync(ProjectEntry entryProjects)
         {
             try
             {
-                return await entryRepository.SetEntry(entryProjects, projectId);
+                return await entryRepository.SetEntryAsync(entryProjects);
             }
             catch (Exception)
             {

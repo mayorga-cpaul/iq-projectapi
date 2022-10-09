@@ -13,20 +13,6 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             this.solutionRepository = solutionRepository;
         }
 
-        public async Task<IEnumerable<Project>> GetAllProjectsAsync(Int32 solution)
-        {
-            try
-            {
-                return await solutionRepository.GetAllProjectsAsync(solution);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
         public async Task<IEnumerable<Solution>> GetByUserAsync(Int32 usuario)
         {
             try
@@ -65,35 +51,16 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
 
                 throw;
             }
-
         }
 
-        public async Task<bool> SetOneProjectToSolutionAsync(Int32 project, Int32 solution)
+        public async Task<int> LastCreatedAsync()
         {
-            try
-            {
-
-                return await solutionRepository.SetOneProjectToSolutionAsync(project, solution);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            return await solutionRepository.LastCreatedAsync();
         }
 
-        public async Task<bool> SetProjectToSolutionAsync(IEnumerable<Project> projects, Int32 solution)
+        public async Task<bool> SetSolutionToUser(Solution solution)
         {
-            try
-            {
-                return await solutionRepository.SetProjectToSolutionAsync(projects, solution);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            return await solutionRepository.SetSolutionToUser(solution);
         }
     }
 }

@@ -5,12 +5,12 @@ namespace SmartSolution.Domain.Interfaces.Repository
     public interface IExpenseRepository : IRepository<ProjectExpense>
     {
         /// <summary>
-        /// Add many projectExpense to Project with the Id
+        /// Add one ProjectExpense to the project 
         /// </summary>
         /// <param name="gastoProjects"></param>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<bool> SetExpense(IEnumerable<ProjectExpense> gastoProjects, Int32 projectId);
+        Task<bool> SetExpenseAsync(ProjectExpense projectExpense);
 
         /// <summary>
         /// Get all the expenses

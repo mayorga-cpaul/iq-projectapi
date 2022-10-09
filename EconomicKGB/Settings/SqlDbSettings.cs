@@ -7,6 +7,6 @@
         public string? User { get; set; }
         public string? Database { get; set; }
         public string? Password { get; set; }
-        public string ConnectionString() => $"server={Server}, {Port}; Initial Catalog={Database}; User Id={User}; Password={Password}";
+        public string ConnectionString() => $"Data source={Server}, {Port}; Initial Catalog={Database}; User Id={User}; Password={Password}";
     }
 }

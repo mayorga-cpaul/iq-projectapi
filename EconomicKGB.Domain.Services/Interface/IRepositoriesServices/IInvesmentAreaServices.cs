@@ -6,12 +6,12 @@ namespace SmartSolution.Services.Interface.IRepositoriesServices
     public interface IInvesmentAreaServices : IRepositoryServices<InvesmentArea>
     {
         /// <summary>
-        /// Set many invesmentArea to Project
+        /// Set one invesmentArea to Project
         /// </summary>
         /// <param name="inversionProyectos"></param>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<bool> SetInvesmentArea(IEnumerable<InvesmentArea> inversionProyectos, Int32 projectId);
+        Task<bool> SetInvesmentArea(InvesmentArea invesmentArea);
 
         /// <summary>
         /// Get All the invesmentArea Related to projectId

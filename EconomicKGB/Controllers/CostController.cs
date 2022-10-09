@@ -14,7 +14,7 @@ namespace SmartSolution.API.Controllers
             this.repository = repository;
         }
 
-        [HttpPatch("{Id}, {projectCostDto}")]
+        [HttpPatch]
         public async Task<ActionResult> UpdateProjecCostAsync(Int32 Id, ProjectCostDto projectCostDto)
         {
             try
@@ -53,8 +53,8 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeleteProjectCostAsync(Int32 id)
+        [HttpDelete("Id")]
+        public async Task<ActionResult> DeleteProjectCostAsync(int id)
         {
             try
             {
@@ -77,11 +77,11 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SetCostAsync(IEnumerable<ProjectCostDto> costProjects, Int32 projectId)
+        public async Task<ActionResult> SetCostAsync(ProjectCostDto costProjects)
         {
             try
             {
-                return Ok(await repository.SetCostAsync(costProjects, projectId));
+                return Ok(await repository.SetCostAsync(costProjects));
             }
             catch (Exception ex)
             {

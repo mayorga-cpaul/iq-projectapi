@@ -1,15 +1,43 @@
 ﻿using SmartSolution.Application.Dtos;
 using SmartSolution.Application.Dtos.EntitiesDto;
+using SmartSolution.Domain.Entities.EntitiesBase;
 
 namespace SmartSolution.Application.Interfaces.IRepositories
 {
     public interface ISolutionApplication : IRepositoryApplication<SolutionDto>
     {
-        Task<bool> SetProjectToSolutionAsync(IEnumerable<ProjectDto> projects, Int32 solution);
-        Task<IEnumerable<SolutionDto>> GetByUserAsync(Int32 usuario);
+        /// <summary>
+        /// Set one solution to user
+        /// </summary>
+        /// <param name="solution"></param>
+        /// <returns></returns>
+        Task<bool> SetSolutionToUserAsync(SolutionDto solution);
+
+        /// <summary>
+        /// Get all the solutions by userId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<SolutionDto>> GetByUserAsync(Int32 userId);
+
+        /// <summary>
+        /// Get all the solutions by email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         Task<IEnumerable<SolutionDto>> GetByUserEmailAsync(string email);
-        Task<SolutionDto> GetSolutionByIdAsync(Int32 id);
-        Task<bool> SetOneProjectToSolutionAsync(Int32 project, Int32 solution);
-        Task<IEnumerable<ProjectDto>> GetAllProjectsAsync(Int32 solution);
+
+        /// <summary>
+        /// Get one solution by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<SolutionDto> GetSolutionByIdAsync(Int32 userId);
+
+        /// <summary>
+        /// Get the last Id Created of the db
+        /// </summary>
+        /// <returns></returns>
+        Task<int> LastCreatedAsync();
     }
 }

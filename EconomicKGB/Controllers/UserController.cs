@@ -18,11 +18,11 @@ namespace SmartSolution.API.Controllers
         #region CRUD
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync(UserDto solutionDto)
+        public async Task<ActionResult> CreateAsync(UserDto userDto)
         {
             try
             {
-                return Ok(await repository.CreateAsync(solutionDto));
+                return Ok(await repository.CreateAsync(userDto));
             }
             catch (Exception ex)
             {
@@ -32,11 +32,11 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> UpdateAsync(Int32 id, UserDto solutionDto)
+        public async Task<ActionResult> UpdateAsync(Int32 id, UserDto userDto)
         {
             try
             {
-                return Ok(await repository.UpdateAsync(id, solutionDto));
+                return Ok(await repository.UpdateAsyncWithSp(userDto, id));
             }
             catch (Exception ex)
             {
@@ -45,7 +45,8 @@ namespace SmartSolution.API.Controllers
 
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet]
+        [Route("getByIdAsync")]
         public async Task<ActionResult> GetByIdAsync(Int32 userId)
         {
             try
@@ -61,7 +62,7 @@ namespace SmartSolution.API.Controllers
 
         }
 
-        [HttpDelete("{userId}")]
+        [HttpDelete]
         public async Task<ActionResult> DeleteAsync(Int32 userId)
         {
             try
@@ -136,34 +137,17 @@ namespace SmartSolution.API.Controllers
             }
 
         }
-        //TODO: ya hay un metodo del controller de la solucion que hace lo mismo 
-        [HttpGet]
-        [Route("getsolutions/userid")]
-        public async Task<ActionResult<SolutionDto>> GetByUserAsync(Int32 userId)
-        {
-            try
-            {
-                var projects = (await repository.GetByUserAsync(userId));
-
-                return Ok(projects);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
         #endregion
 
         #region Others 
 
         [HttpGet]
         [Route("others/access")]
-        public async Task<ActionResult> AccessToAppAsync(string email, string name, string password)
+        public async Task<ActionResult> AccessToAppAsync(string email, string password)
         {
             try
             {
-                var projects = await repository.AccessToAppAsync(email, name, password);
+                var projects = await repository.AccessToAppAsync(email, password);
 
                 return Ok(projects);
             }

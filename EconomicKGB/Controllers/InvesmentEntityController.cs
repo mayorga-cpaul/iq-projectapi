@@ -14,11 +14,11 @@ namespace SmartSolution.API.Controllers
             this.repository = repository;
         }
 
-        [HttpPatch("{Id}, {invesmentEntityDto}")]
-        public async Task<ActionResult> UpdateAsync(Int32 Id, InvestmentEntityDto projectCostDto)
+        [HttpPatch]
+        public async Task<ActionResult> UpdateAsync(int Id, InvestmentEntityDto projectCostDto)
         {
-            try
-            {
+            //try
+            //{
                 var existingItem = await repository.GetAsync(Id);
 
                 if (existingItem == null)
@@ -27,15 +27,15 @@ namespace SmartSolution.API.Controllers
                 }
 
                 return Ok(await repository.UpdateAsync(Id, projectCostDto));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest(ex.Message);
+            //}
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeleteAsync(Int32 id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -56,11 +56,11 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SetInvesmentAsync(IEnumerable<InvestmentEntityDto> entidadInvs, Int32 projectId)
+        public async Task<ActionResult> SetInvesmentAsync(InvestmentEntityDto entidadInvs)
         {
             try
             {
-                return Ok(await repository.SetInvesmentEntity(entidadInvs, projectId));
+                return Ok(await repository.SetInvesmentEntityAsync(entidadInvs));
             }
             catch (Exception ex)
             {
@@ -69,11 +69,11 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<InvestmentEntityDto>> GetInvesmentAsync(Int32 solutionId)
+        public async Task<ActionResult<InvestmentEntityDto>> GetInvesmentAsync(int solutionId)
         {
             try
             {
-                return Ok(await repository.GetInvesmentEntities(solutionId));
+                return Ok(await repository.GetInvesmentAsync(solutionId));
             }
             catch (Exception ex)
             {
@@ -82,8 +82,8 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("api/getInvesmentEntities")]
-        public async Task<ActionResult> GetInvesment(Int32 projectId)
+        [Route("getInvesment")]
+        public async Task<ActionResult> GetInvesment(int projectId)
         {
             try
             {

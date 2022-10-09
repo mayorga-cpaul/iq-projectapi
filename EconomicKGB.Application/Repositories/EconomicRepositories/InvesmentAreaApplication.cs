@@ -49,10 +49,10 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return mapper.Map<IEnumerable<InvesmentAreaDto>>(invesmentAreas);
         }
 
-        public async Task<bool> SetInvesmentArea(IEnumerable<InvesmentAreaDto> inversionProyectos, int projectId)
+        public async Task<bool> SetInvesmentArea(InvesmentAreaDto inversionProyectos)
         {
-            var invesmentAreas = mapper.Map<IEnumerable<InvesmentArea>>(inversionProyectos);
-            return await repository.SetInvesmentArea(invesmentAreas, projectId);
+            var invesmentAreas = mapper.Map<InvesmentArea>(inversionProyectos);
+            return await repository.SetInvesmentArea(invesmentAreas);
         }
 
         public async Task<bool> UpdateAsync(int id, InvesmentAreaDto entity)

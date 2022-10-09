@@ -132,7 +132,6 @@ namespace SmartSolution.API.Controllers
         }
         
         [HttpPatch]
-        [Route("update/{Id}")]
         public async Task<ActionResult> UpdateEconomicAsync(Int32 Id, EconomicDto economicDto)
         {
             try

@@ -38,7 +38,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
 
         public async Task<IEnumerable<ProjectExpenseDto>> GetAllExpenses(int projectId)
         {
-            var projectExpense = await repository.GetAllExpenses(projectId);
+            var projectExpense = await repository.GetAllExpensesAsync(projectId);
             var projectExpenseDto = mapper.Map<IEnumerable<ProjectExpenseDto>>(projectExpense);
 
             return projectExpenseDto;
@@ -51,10 +51,10 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return projectExpenseDto;
         }
 
-        public async Task<bool> SetExpenseAsync(IEnumerable<ProjectExpenseDto> gastoProjects, int projectId)
+        public async Task<bool> SetExpenseAsync(ProjectExpenseDto gastoProjects)
         {
-            var projectExpenses = mapper.Map<IEnumerable<ProjectExpense>>(gastoProjects);
-            return await repository.SetExpense(projectExpenses, projectId);
+            var projectExpenses = mapper.Map<ProjectExpense>(gastoProjects);
+            return await repository.SetExpenseAsync(projectExpenses);
         }
 
         public async Task<bool> UpdateAsync(int id, ProjectExpenseDto entity)

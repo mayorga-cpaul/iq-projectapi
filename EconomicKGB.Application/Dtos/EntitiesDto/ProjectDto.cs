@@ -12,5 +12,6 @@
         public decimal RecoveryCt { get; set; }
         public decimal TMAR { get; set; }
         public DateTime CreationDate { get; set; }
+        public decimal TMARMixta { get; set; }
     }
 }

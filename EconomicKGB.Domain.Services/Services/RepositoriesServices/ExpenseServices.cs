@@ -13,7 +13,7 @@ namespace SmartSolution.Services.Services.RepositoriesServices
             this.expenseRepository = expenseRepository;
         }
 
-        public async Task<IEnumerable<ProjectExpense>> GetAllExpenses(int projectId)
+        public async Task<IEnumerable<ProjectExpense>> GetAllExpensesAsync(int projectId)
         {
             try
             {
@@ -27,11 +27,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<bool> SetExpense(IEnumerable<ProjectExpense> gastoProjects, int projectId)
+        public async Task<bool> SetExpenseAsync(ProjectExpense gastoProjects)
         {
             try
             {
-                return await expenseRepository.SetExpense(gastoProjects, projectId);
+                return await expenseRepository.SetExpenseAsync(gastoProjects);
             }
             catch (Exception)
             {

@@ -12,11 +12,11 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             this.userRepository = userRepository;
         }
 
-        public async Task<Boolean> AccessToAppAsync(string email, string name, string password)
+        public async Task<Boolean> AccessToAppAsync(string email, string password)
         {
             try
             {
-                return await userRepository.AccessToAppAsync(email, name, password);
+                return await userRepository.AccessToAppAsync(email, password);
             }
             catch (Exception)
             {
@@ -34,7 +34,6 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             }
             catch (Exception)
             {
-
                 throw;
             }
 
@@ -68,20 +67,6 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<IEnumerable<Solution>> GetByUserAsync(Int32 usuario)
-        {
-            try
-            {
-                return await userRepository.GetByUserAsync(usuario);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
         public async Task<string> RecoveryPasswordAsync(string email)
         {
             try
@@ -94,6 +79,11 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
                 throw;
             }
 
+        }
+
+        public async Task<bool> UpdateAsyncWithSp(User entity)
+        {
+            return await userRepository.UpdateAsyncWithSp(entity);
         }
     }
 }

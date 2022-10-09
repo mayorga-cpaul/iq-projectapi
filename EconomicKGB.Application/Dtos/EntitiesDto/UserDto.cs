@@ -5,10 +5,11 @@
         public int Id { get; set; }
         public string Name { get; set; } = String.Empty;
         public string Email { get; set; } = String.Empty;
-        public byte[]? ProfileImage { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Dni { get; set; }
-        public byte[]? Password { get; set; }
+        public string Password { get; set; } = String.Empty;
         public DateTime Creation { get; set; }
+        public bool State { get; set; }
+
     }
 }

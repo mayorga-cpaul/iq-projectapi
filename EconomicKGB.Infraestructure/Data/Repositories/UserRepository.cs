@@ -6,7 +6,8 @@ using System.Text;
 using Dapper;
 using System.Text.RegularExpressions;
 using SmartSolution.Domain.Entities.EntitiesBase;
-using System.Runtime.InteropServices;
+using Microsoft.Data.SqlClient;
+using static Dapper.SqlMapper;
 
 namespace SmartSolution.Infraestructure.Data.Repositories
 {
@@ -27,7 +28,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                     throw new ArgumentNullException(nameof(entity));
                 }
 
-                if (!ExistEmailAsync(entity.Email).Result && entity.Password != null)
+                if (! await ExistEmailAsync(entity.Email) && entity.Password != null)
                 {
                     string pass = Encoding.Default.GetString(bytes: entity.Password);
 
@@ -37,10 +38,11 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                         {
                             name = entity.Name,
                             email = entity.Email,
-                            profileImage = entity.ProfileImage,
                             phoneNumber = entity.PhoneNumber,
                             dni = entity.Dni,
-                            password = Encoding.Default.GetString(entity.Password)
+                            password = Encoding.Default.GetString(entity.Password),
+                            estado = entity.State,
+                            creacion = entity.Creation,
 
                         }, commandType: CommandType.StoredProcedure);
 
@@ -59,7 +61,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
         //TODO: No se ocupa el name
-        public async Task<bool> AccessToAppAsync(string email, string name, string password)
+        public async Task<bool> AccessToAppAsync(string email, string password)
         {
             try
             {
@@ -96,9 +98,10 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                var data = await GetByEmailAsync(email);
+                bool exist = await repository.Usuarios.
+                    AnyAsync(e => e.Email.Equals(email));
 
-                return (data is null) ? false : true;
+                return exist;
             }
             catch (Exception)
             {
@@ -111,15 +114,14 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                if (repository.Usuarios.FirstOrDefaultAsync(p => p.Email.Equals(email)).Result is null)
-                {
-                    throw new Exception("El usuario no existe");
-                }
-                var data = (await repository.Usuarios.FirstOrDefaultAsync(p => p.Email.Equals(email)));
+                if (!await ExistEmailAsync(email))
+                    throw new Exception($"No existe un usuario con {email} en nuestra base de datos");
+
+                var data = await repository.Usuarios.FirstOrDefaultAsync(p => p.Email.Equals(email));
 
                 if (data is null)
                 {
-                    throw new Exception("El usuario no existe");
+                    throw new Exception("Error");
                 }
 
                 return data;
@@ -155,17 +157,18 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<IEnumerable<Solution>> GetByUserAsync(Int32 usuario)
+        public async Task<IEnumerable<Solution>> GetByUserAsync(Int32 userId)
         {
             try
             {
-                var data = repository.Usuarios.FirstOrDefaultAsync(e => e.Id == usuario);
-                if (data is null)
+                bool data = await repository.Usuarios.AnyAsync(e => e.Id == userId);
+                
+                if (!data)
                 {
-                    throw new Exception("");
+                    throw new Exception($"El usuario con id {userId} no existe");
                 }
 
-                return await Task.FromResult(repository.Solutions.Where(e => e.UserId == data.Id));
+                return await Task.FromResult(repository.Solutions.Where(e => e.UserId == userId));
             }
             catch (Exception)
             {
@@ -174,12 +177,76 @@ namespace SmartSolution.Infraestructure.Data.Repositories
 
         }
 
-        public Task<string> RecoveryPasswordAsync(string email)
+        public async Task<string> RecoveryPasswordAsync(string e_mail)
         {
-            //TODO: Method With API 
-            throw new NotImplementedException();
+            try
+            {
+                if (await ExistEmailAsync(e_mail))
+                {
+                    var get = await GetByEmailAsync(e_mail);
+                    IMailRepository mailRepository = new MailRepository();
+                    mailRepository.SendMail(subject: "SYSTEM: Password recovery request",
+                    body: "Hi, " + get.Name + "\nYou Requested to Recover your password.\n" +
+                    "your current password is: " + $" {DescryptPassword(e_mail)}" +
+                    "\nHowever, we ask that you change your password inmediately once you enter the system.",
+                    recipientMail: new List<string> { get.Email });
+                    return "Hi, " + get.Name + "\nYou Requested to Recover your password.\n" +
+                    "Please check your mail: " + get.Email +
+                    "\nHowever, we ask that you change your password inmediately once you enter the system.";
+                }
+                else
+                {
+                    return "Sorry, you do not have an account with that mail or username";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
+        public async Task<bool> UpdateAsyncWithSp(User entity)
+        {
+            //[sp_Update]
 
-    }
+            try
+            {
+                if (entity is null)
+                {
+                    throw new ArgumentNullException(nameof(entity));
+                }
+
+                if (!await ExistEmailAsync(entity.Email) && entity.Password != null)
+                {
+                    string pass = Encoding.Default.GetString(bytes: entity.Password);
+
+                    using (var connection = repository.Database.GetDbConnection())
+                    {
+                        var result = await connection.ExecuteAsync("sp_Update", new
+                        {
+                            name = entity.Name,
+                            email = entity.Email,
+                            phoneNumber = entity.PhoneNumber,
+                            dni = entity.Dni,
+                            password = Encoding.Default.GetString(entity.Password),
+                            estado = entity.State,
+                            creacion = entity.Creation,
+
+                        }, commandType: CommandType.StoredProcedure);
+
+                        return true;
+                    }
+                }
+                else
+                {
+                    throw new Exception("Por favor intente con otro correo electrónico");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+     }
 }

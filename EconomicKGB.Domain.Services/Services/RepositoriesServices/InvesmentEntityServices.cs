@@ -41,11 +41,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<bool> SetInvesmentEntity(IEnumerable<InvestmentEntity> entidadInvs, int projectId)
+        public async Task<bool> SetInvesmentEntityAsync(InvestmentEntity entidadInvs)
         {
             try
             {
-                return await invesmentEntityRepository.SetInvesmentEntity(entidadInvs, projectId);
+                return await invesmentEntityRepository.SetInvesmentEntityAsync(entidadInvs);
             }
             catch (Exception)
             {

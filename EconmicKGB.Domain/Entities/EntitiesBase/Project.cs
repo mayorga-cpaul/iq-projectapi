@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace SmartSolution.Domain.Entities.EntitiesBase
 {
@@ -24,6 +25,7 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
         public decimal RecoveryCt { get; set; }
         public decimal TMAR { get; set; }
         public DateTime CreationDate { get; set; }
+        public decimal TMARMixta { get; set; }
         public virtual Solution Solution { get; set; } = null!;
         public virtual ICollection<InvesmentArea> InvestmentArea { get; set; }
         public virtual ICollection<ProjectCost> ProjectCosts { get; set; }

@@ -49,15 +49,13 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<bool> SetInvesmentEntity(IEnumerable<InvestmentEntity> entidadInvs, int projectId)
+        public async Task<bool> SetInvesmentEntityAsync(InvestmentEntity invesmentEnt)
         {
             try
             {
-                foreach (var item in entidadInvs)
-                {
-                    await repository.EntidadInvs.AddAsync(item);
-                }
-                return await Task.FromResult((repository.SaveChanges() > 0) ? true : false);
+                _ = (repository.Projects.Any(e => e.Id == invesmentEnt.ProjectId) is false)
+                ? throw new Exception("El proyecto que desea asignarle al costo no existe")
+                : repository.EntidadInvs.Add(invesmentEnt); await repository.SaveChangesAsync(); return true;
             }
             catch (Exception)
             {

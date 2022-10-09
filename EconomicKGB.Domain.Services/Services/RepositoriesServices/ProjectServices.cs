@@ -13,25 +13,10 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             this.projectRepository = projectRepository;
         }
 
-        public async Task<IEnumerable<ProjectEntry>> GetEntriesAsync(int projectId)
-        {
-            try
-            {
-                return await projectRepository.GetEntriesAsync(projectId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
         public async Task<IEnumerable<Project>> GetProjectsBySolAsync(int solution)
         {
             try
             {
-
                 return await projectRepository.GetProjectsBySolAsync(solution);
             }
             catch (Exception)
@@ -41,18 +26,9 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             }
         }
 
-        public async Task<bool> SetEntriesAsync(IEnumerable<ProjectEntry> ingresoProyectos, int projectId)
+        public async Task<bool> SetProjectToSolutionAsync(Project project)
         {
-            try
-            {
-                return await projectRepository.SetEntriesAsync(ingresoProyectos, projectId);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            return await projectRepository.SetProjectToSolution(project);
         }
     }
 }

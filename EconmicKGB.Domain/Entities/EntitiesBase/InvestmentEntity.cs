@@ -9,7 +9,6 @@
         public bool IsPorcentage { get; set; }  
         public decimal? Contribution { get; set; }
         public decimal? Tmar { get; set; }
-        public byte[]? ProfileImage { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Dni { get; set; }
         public bool MoneyLoan { get; set; }

@@ -12,7 +12,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<ProjectCost>> GetAllCost(int projectId)
+        public async Task<IEnumerable<ProjectCost>> GetAllCostAsync(int projectId)
         {
             try
             {
@@ -30,15 +30,13 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<bool> SetCost(IEnumerable<ProjectCost> costProjects, int projectId)
+        public async Task<bool> SetCostAsync(ProjectCost costProjects)
         {
             try
             {
-                foreach (var item in costProjects)
-                {
-                    await repository.CostProjects.AddAsync(item);
-                }
-                return await Task.FromResult((repository.SaveChanges() > 0) ? true : false);
+                _ = (repository.Projects.Any(e => e.Id == costProjects.ProjectId) is false)
+                ? throw new Exception("El proyecto que desea asignarle al costo no existe")
+                : repository.CostProjects.Add(costProjects); await repository.SaveChangesAsync(); return true; 
             }
             catch (Exception)
             {

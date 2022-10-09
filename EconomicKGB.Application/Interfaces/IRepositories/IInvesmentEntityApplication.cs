@@ -10,7 +10,7 @@ namespace SmartSolution.Application.Interfaces.IRepositories
         /// </summary>
         /// <param name="idSolution"></param>
         /// <returns></returns>
-        Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntities(Int32 idSolution);
+        Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntitiesAsync(Int32 idSolution);
 
         /// <summary>
         /// Get All the invesment by projectId
@@ -20,11 +20,11 @@ namespace SmartSolution.Application.Interfaces.IRepositories
         Task<InvestmentEntityDto> GetInvesmentAsync(Int32 projectId);
 
         /// <summary>
-        /// Add many Invesment Entities to project
+        /// Add one Invesment Entity to project
         /// </summary>
         /// <param name="entidadInvs"></param>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<bool> SetInvesmentEntity(IEnumerable<InvestmentEntityDto> entidadInvs, Int32 projectId);
+        Task<bool> SetInvesmentEntityAsync(InvestmentEntityDto entidadInvs);
     }
 }

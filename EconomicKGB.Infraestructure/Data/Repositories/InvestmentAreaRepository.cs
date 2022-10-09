@@ -24,15 +24,13 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<bool> SetInvesmentArea(IEnumerable<InvesmentArea> inversionProyectos, int projectId)
+        public async Task<bool> SetInvesmentArea(InvesmentArea invesmentArea)
         {
             try
             {
-                foreach (var item in inversionProyectos)
-                {
-                    repository.AreaInversions.Add(item);
-                }
-                return await Task.FromResult((repository.SaveChanges() > 0) ? true : false);
+                _ = (repository.Projects.Any(e => e.Id == invesmentArea.ProjectId) is false)
+                ? throw new Exception("El proyecto que desea asignarle al costo no existe")
+                : repository.AreaInversions.Add(invesmentArea); await repository.SaveChangesAsync(); return true;
             }
             catch (Exception)
             {

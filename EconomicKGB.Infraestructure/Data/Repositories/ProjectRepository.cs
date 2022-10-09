@@ -13,17 +13,13 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             this.repository = repository;
         }
 
-        public async Task<IEnumerable<ProjectEntry>> GetEntriesAsync(Int32 project)
+        public async Task<IEnumerable<Project>> GetAllProjectsAsync(int solutionId)
         {
             try
             {
-                var data = await GetAsync(project);
-                if (data is null)
-                {
-                    throw new ArgumentNullException(nameof(data));
-                }
-
-                return await Task.FromResult(repository.IngresoProyectos.Where(e => e.ProjectId == data.Id));
+                if (!await repository.Solutions.AnyAsync(e => e.Id == solutionId))
+                    throw new Exception("El usuario no existe");
+                return await Task.FromResult(repository.Projects.Where(p => p.SolutionId == solutionId));
             }
             catch (Exception)
             {
@@ -35,6 +31,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
+
                 return await Task.FromResult(repository.Projects.Where(p => p.SolutionId == solution));
             }
             catch (Exception)
@@ -43,18 +40,29 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<bool> SetEntriesAsync(IEnumerable<ProjectEntry> ingresoProyectos, Int32 project)
+        public async Task<bool> SetProjectToSolution(Project project)
         {
             try
             {
-                foreach (var item in ingresoProyectos)
-                {
-                    await repository.IngresoProyectos.AddAsync(item);
-                }
-                return await Task.FromResult((repository.SaveChanges() > 0) ? true : false);
+                //if (repository.Solutions.Any(e => e.Id == project.SolutionId))
+                //{
+                //    await repository.Projects.AddAsync(project);
+                //    await repository.SaveChangesAsync();
+                //    return true;
+                //}
+                //else
+                //    throw new Exception("El proyecto que desea asignarle al costo no existe");
+
+
+                _ = (repository.Solutions.Any(e => e.Id == project.SolutionId) is false)
+              ? throw new Exception("El proyecto que desea asignarle al costo no existe")
+              : repository.Projects.Add(project); await repository.SaveChangesAsync(); return true;
+
+
             }
             catch (Exception)
             {
+
                 throw;
             }
         }

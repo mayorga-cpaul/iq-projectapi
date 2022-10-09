@@ -22,11 +22,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<IEnumerable<ProjectCost>> GetAllCost(int projectId)
+        public async Task<IEnumerable<ProjectCost>> GetAllCostAsync(int projectId)
         {
             try
             {
-                return await costRepository.GetAllCost(projectId);
+                return await costRepository.GetAllCostAsync(projectId);
             }
             catch (Exception)
             {
@@ -36,11 +36,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<bool> SetCost(IEnumerable<ProjectCost> costProjects, int projectId)
+        public async Task<bool> SetCostAsync(ProjectCost costProjects)
         {
             try
             {
-                return await costRepository.SetCost(costProjects, projectId);
+                return await costRepository.SetCostAsync(costProjects);
             }
             catch (Exception)
             {

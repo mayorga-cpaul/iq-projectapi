@@ -3,6 +3,12 @@ using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Application.Dtos.EntitiesDto;
 using SmartSolution.Application.Interfaces.IRepositories;
 using SmartSolution.Domain.Services.Interface.IRepositoriesServices;
+using System.Drawing.Imaging;
+using EasyBase64ToImage;
+using System.Drawing;
+using System.Text;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SmartSolution.Application.Repositories.EconomicRepositories
 {
@@ -17,14 +23,24 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             this.mapper = mapper;
         }
 
-        public async Task<bool> AccessToAppAsync(string email, string name, string password)
+        public async Task<bool> AccessToAppAsync(string email, string password)
         {
-            return await userServices.AccessToAppAsync(email, name, password);
+            return await userServices.AccessToAppAsync(email, password);
         }
 
         public async Task<Int32> CreateAsync(UserDto entity)
         {
-            var user = mapper.Map<User>(entity);
+            User user = new User()
+            {
+                Name = entity.Name,
+                Email = entity.Email,
+                PhoneNumber = entity.PhoneNumber,
+                Dni = entity.Dni,
+                Password = Encoding.ASCII.GetBytes(entity.Password),
+                Creation = entity.Creation,
+                State = entity.State,
+            };
+
             return await userServices.CreateAsync(user);
         }
 
@@ -66,13 +82,6 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return userDto;
         }
 
-        public async Task<IEnumerable<SolutionDto>> GetByUserAsync(Int32 id)
-        {
-            var solutions = await userServices.GetByUserAsync(id);
-            var solutionsDto = mapper.Map<IEnumerable<SolutionDto>>(solutions);
-            return solutionsDto;
-        }
-
         public async Task<string> RecoveryPasswordAsync(string email)
         {
             return await userServices.RecoveryPasswordAsync(email);
@@ -83,6 +92,41 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             var user = mapper.Map<User>(entity);
             user.Id = id;
             return await userServices.UpdateAsync(user);
+        }
+
+        public byte[] imageToByteArray(System.Drawing.Image imageIn)
+        {
+            MemoryStream ms = new MemoryStream();
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            return ms.ToArray();
+        }
+
+        public Image stringToImage(string inputString)
+        {
+            byte[] imageBytes = Convert.FromBase64String(inputString);
+            // Convert byte[] to Image
+            using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
+            {
+                Image image = Image.FromStream(ms, true);
+                return image;
+            }
+        }
+
+        public async Task<bool> UpdateAsyncWithSp(UserDto entity, int userId)
+        {
+            User user = new User()
+            {
+                Id = userId,
+                Name = entity.Name,
+                Email = entity.Email,
+                PhoneNumber = entity.PhoneNumber,
+                Dni = entity.Dni,
+                Password = Encoding.ASCII.GetBytes(entity.Password),
+                Creation = entity.Creation,
+                State = entity.State,
+            };
+
+            return await userServices.UpdateAsyncWithSp(user);
         }
     }
 }

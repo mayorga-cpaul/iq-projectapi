@@ -4,13 +4,18 @@ namespace SmartSolution.Domain.Interfaces.Repository
 {
     public interface IEntryRepository: IRepository<ProjectEntry>
     {
-        Task<bool> SetEntry(IEnumerable<ProjectEntry> entryProject, Int32 projectId);
+        /// <summary>
+        /// Set one entry async the entrtProject has the projectId
+        /// </summary>
+        /// <param name="entryProject"></param>
+        /// <returns></returns>
+        Task<bool> SetEntryAsync(ProjectEntry entryProject);
 
         /// <summary>
         /// Get all the projectCost by ProjectId
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<IEnumerable<ProjectEntry>> GetAllEntry(Int32 projectId);
+        Task<IEnumerable<ProjectEntry>> GetAllEntryAsync(Int32 projectId);
     }
 }

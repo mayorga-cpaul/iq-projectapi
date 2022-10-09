@@ -4,6 +4,7 @@ using SmartSolution.Application.Dtos.EntitiesDto;
 using SmartSolution.Application.Interfaces.IRepositories;
 using SmartSolution.Domain.Services.Interface.IRepositoriesServices;
 namespace SmartSolution.Application.Repositories.EconomicRepositories;
+
 public class SolutionApplication : ISolutionApplication
 {
     private readonly ISolutionServices solutionServices;
@@ -31,13 +32,6 @@ public class SolutionApplication : ISolutionApplication
         var solutions = await solutionServices.GetAllAsync();
         var solutionsDto = mapper.Map<IEnumerable<SolutionDto>>(solutions);
         return solutionsDto;
-    }
-
-    public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync(Int32 solutionId)
-    {
-        var projects = await solutionServices.GetAllProjectsAsync(solutionId);
-        var projectsDto = mapper.Map<IEnumerable<ProjectDto>>(projects);
-        return projectsDto;
     }
 
     public async Task<SolutionDto> GetAsync(Int32 solutionId)
@@ -68,16 +62,15 @@ public class SolutionApplication : ISolutionApplication
         return solutionDto;
     }
 
-    public async Task<bool> SetOneProjectToSolutionAsync(Int32 projectId, Int32 solutionId)
+    public async Task<int> LastCreatedAsync()
     {
-        return await solutionServices.SetOneProjectToSolutionAsync(projectId, solutionId);
+        return await solutionServices.LastCreatedAsync();
     }
 
-    public async Task<bool> SetProjectToSolutionAsync(IEnumerable<ProjectDto> projects, Int32 solution)
+    public async Task<bool> SetSolutionToUserAsync(SolutionDto solutionDto)
     {
-        var invesmentArea = mapper.Map<IEnumerable<Project>>(projects);
-        var result = await solutionServices.SetProjectToSolutionAsync(invesmentArea, solution);
-        return result;
+        var solution = mapper.Map<Solution>(solutionDto);
+        return await solutionServices.SetSolutionToUser(solution);
     }
 
     public async Task<bool> UpdateAsync(Int32 solutionId, SolutionDto entity)

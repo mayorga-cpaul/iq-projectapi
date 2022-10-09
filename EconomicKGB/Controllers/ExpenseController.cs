@@ -14,18 +14,7 @@ namespace SmartSolution.API.Controllers
             this.repository = repository;
         }
         #region CRUD 
-        [HttpPost]
-        public async Task<ActionResult> CreateAsync(ProjectExpenseDto projectExpenseDto)
-        {
-            try
-            {
-                return Ok(await repository.CreateAsync(projectExpenseDto));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+
         [HttpGet]
         public async Task<ActionResult<ProjectExpenseDto>> GetAllAsync()
         {
@@ -40,8 +29,9 @@ namespace SmartSolution.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{expenseid}")]
-        public async Task<ActionResult> GetByIdAsync(Int32 expenseid)
+        [HttpGet]
+        [Route("getByIdAsync")]
+        public async Task<ActionResult> GetByIdAsync(int expenseid)
         {
             try
             {
@@ -54,6 +44,7 @@ namespace SmartSolution.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPatch]
         public async Task<ActionResult> UpdateAsync(Int32 Id, ProjectExpenseDto projectCostDto)
         {
@@ -76,8 +67,8 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeleteAsync(Int32 id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -99,12 +90,12 @@ namespace SmartSolution.API.Controllers
         }
         #endregion
 
-        [HttpPost("setexpenses")]
-        public async Task<ActionResult> SetExpensesAsync(IEnumerable<ProjectExpenseDto> gastoProjects, Int32 projectId)
+        [HttpPost("setExpenseAsync")]
+        public async Task<ActionResult> SetExpensesAsync(ProjectExpenseDto gastoProjects)
         {
             try
             {
-                return Ok(await repository.SetExpenseAsync(gastoProjects, projectId));
+                return Ok(await repository.SetExpenseAsync(gastoProjects));
             }
             catch (Exception ex)
             {

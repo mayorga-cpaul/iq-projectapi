@@ -10,7 +10,18 @@ namespace SmartSolution.Application.Interfaces.IRepositories
 {
     public interface IEntryApplication : IRepositoryApplication<ProjectEntryDto>
     {
-        Task<bool> SetEntryAsync(IEnumerable<ProjectEntryDto> entryProjects, Int32 projectId);
+        /// <summary>
+        /// Set one entry async the entrtProject has the projectId
+        /// </summary>
+        /// <param name="entryProject"></param>
+        /// <returns></returns>
+        Task<bool> SetEntryAsync(ProjectEntryDto entryProject);
+
+        /// <summary>
+        /// Get all the projectCost by ProjectId
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         Task<IEnumerable<ProjectEntryDto>> GetAllEntryAsync(Int32 projectId);
     }
 }
