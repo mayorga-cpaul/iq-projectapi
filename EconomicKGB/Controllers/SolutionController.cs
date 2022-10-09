@@ -49,11 +49,11 @@ namespace SmartSolution.API.Controllers
 
         [HttpGet]
         [Route("getByIdAsync")]
-        public async Task<ActionResult> GetByIdAsync(int idsolution)
+        public async Task<ActionResult> GetByIdAsync(int id)
         {
             try
             {
-                var solutionDto = (await repository.GetAsync(idsolution));
+                var solutionDto = (await repository.GetAsync(id));
 
                 return Ok(solutionDto);
             }
@@ -65,18 +65,18 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteAsync(Int32 solutionid)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             try
             {
-                var existingItem = await repository.GetAsync(solutionid);
+                var existingItem = await repository.GetAsync(id);
 
                 if (existingItem is null)
                 {
                     return NotFound();
                 }
 
-                int result = await repository.DeleteAsync(solutionid);
+                int result = await repository.DeleteAsync(id);
 
                 return Ok(result);
             }
@@ -108,8 +108,7 @@ namespace SmartSolution.API.Controllers
         #region Set
 
         [HttpPost]
-        [Route("setsolution")]
-        public async Task<ActionResult> SetProjectToSolutionAsync(SolutionDto solution)
+        public async Task<ActionResult> SetSolutionAsync(SolutionDto solution)
         {
             try
             {
@@ -145,12 +144,11 @@ namespace SmartSolution.API.Controllers
 
         [HttpGet]
         [Route("getsolutionsbyid")]
-        //TODO: ya hay un metodo con esta misma funcionalidad
-        public async Task<ActionResult> GetSolutionByIdAsync(int solutionId)
+        public async Task<ActionResult> GetSolutionByIdAsync(int id)
         {
             try
             {
-                var projects = (await repository.GetSolutionByIdAsync(solutionId));
+                var projects = (await repository.GetSolutionByIdAsync(id));
 
                 return Ok(projects);
             }

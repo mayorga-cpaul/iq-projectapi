@@ -26,14 +26,14 @@ namespace SmartSolution.Domain.EconomicContext
         public virtual DbSet<Solution> Solutions { get; set; } = null!;
         public virtual DbSet<User> Usuarios { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer($"Data source=localhost, 1433; Initial Catalog=EconomicIE; User Id=SA; Password=1234");
-            }
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//                optionsBuilder.UseSqlServer($"Data source=localhost, 1433; Initial Catalog=EconomicIE; User Id=SA; Password=1234");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -170,7 +170,7 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.Property(e => e.IsPorcentage);
                 entity.Property(e => e.Name).HasMaxLength(100);
 
-                entity.Property(e => e.PhoneNumber).HasMaxLength(50);
+                entity.Property(e => e.TipoDeAmortización).HasMaxLength(50);
 
                 entity.Property(e => e.Tmar)
                     .HasColumnType("decimal(18, 0)")
@@ -255,7 +255,7 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.Property(e => e.TMAR).HasColumnType("decimal(18, 0)");
                 entity.Property(e => e.WithFinancement);
                 entity.Property(e => e.TMARMixta).HasColumnType("decimal(18, 0)");
-
+                entity.Property(e => e.Contribution).HasColumnType("decimal(18, 0)");
                 entity.HasOne(d => d.Solution)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.SolutionId)

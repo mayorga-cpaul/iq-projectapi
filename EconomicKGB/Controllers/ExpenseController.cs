@@ -31,11 +31,11 @@ namespace SmartSolution.API.Controllers
         }
         [HttpGet]
         [Route("getByIdAsync")]
-        public async Task<ActionResult> GetByIdAsync(int expenseid)
+        public async Task<ActionResult> GetByIdAsync(int id)
         {
             try
             {
-                var projectDto = (await repository.GetAsync(expenseid));
+                var projectDto = (await repository.GetAsync(id));
 
                 return Ok(projectDto);
             }
@@ -46,18 +46,18 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> UpdateAsync(Int32 Id, ProjectExpenseDto projectCostDto)
+        public async Task<ActionResult> UpdateAsync(int id, ProjectExpenseDto projectCostDto)
         {
             try
             {
-                var existingItem = await repository.GetAsync(Id);
+                var existingItem = await repository.GetAsync(id);
 
                 if (existingItem == null)
                 {
                     return NotFound();
                 }
 
-                bool result = await repository.UpdateAsync(Id, projectCostDto);
+                bool result = await repository.UpdateAsync(id, projectCostDto);
 
                 return Ok(result);
             }
@@ -104,7 +104,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet("getexpensesbyprojectid")]
-        public async Task<ActionResult<ProjectExpenseDto>> GetAllExpense(Int32 projectId)
+        public async Task<ActionResult<ProjectExpenseDto>> GetAllExpense(int projectId)
         {
             try
             {

@@ -93,9 +93,13 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                _ = (repository.Usuarios.Any(e => e.Id == solution.UserId) is false)
-                ? throw new Exception("El proyecto que desea asignarle al costo no existe")
-                : repository.Solutions.Add(solution); await repository.SaveChangesAsync(); return true;
+                //_ = (repository.Usuarios.Any(e => e.Id == solution.UserId) is false)
+                //? throw new Exception("El proyecto que desea asignarle al costo no existe")
+                //: repository.Solutions.Add(solution); await repository.SaveChangesAsync(); return true;
+
+                repository.Solutions.Add(solution);
+                await repository.SaveChangesAsync();
+                return true;    
             }
             catch (Exception)
             {

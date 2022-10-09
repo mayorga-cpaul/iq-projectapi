@@ -15,18 +15,18 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> UpdateAsync(int Id, InvestmentEntityDto projectCostDto)
+        public async Task<ActionResult> UpdateAsync(int id, InvestmentEntityDto projectCostDto)
         {
             try
             {
-                var existingItem = await repository.GetAsync(Id);
+                var existingItem = await repository.GetAsync(id);
 
                 if (existingItem == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(await repository.UpdateAsync(Id, projectCostDto));
+                return Ok(await repository.UpdateAsync(id, projectCostDto));
             }
             catch (Exception ex)
             {
@@ -82,17 +82,31 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("getInvesment")]
-        public async Task<ActionResult> GetInvesment(int projectId)
+        [Route("getByIdAsync")]
+        public async Task<ActionResult> GetInvesment(int id)
         {
             try
             {
-                return Ok(await repository.GetInvesmentAsync(projectId));
+                return Ok(await repository.GetInvesmentAsync(id));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        } 
+        }
+
+        [HttpGet]
+        [Route("getInvesmentBySolutionId")]
+        public async Task<ActionResult<InvestmentEntityDto>> GetInvesmentEntities(int projectId)
+        {
+            try
+            {
+                return Ok(await repository.GetInvesmentEntities(projectId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

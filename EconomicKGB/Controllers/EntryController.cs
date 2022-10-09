@@ -18,18 +18,18 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> UpdateProjecCostAsync(Int32 Id, ProjectEntryDto projectEntryDto)
+        public async Task<ActionResult> UpdateProjecCostAsync(int id, ProjectEntryDto projectEntryDto)
         {
             try
             {
-                var existingItem = await repository.GetAsync(Id);
+                var existingItem = await repository.GetAsync(id);
 
                 if (existingItem == null)
                 {
                     return NotFound();
                 }
 
-                bool result = await repository.UpdateAsync(Id, projectEntryDto);
+                bool result = await repository.UpdateAsync(id, projectEntryDto);
 
                 return Ok(result);
             }
@@ -41,7 +41,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProjectEntryDto>> GetAllEntryAsync(Int32 projectId)
+        public async Task<ActionResult<ProjectEntryDto>> GetAllEntryAsync(int projectId)
         {
             try
             {

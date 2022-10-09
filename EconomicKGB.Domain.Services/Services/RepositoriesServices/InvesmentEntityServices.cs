@@ -13,11 +13,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
             this.invesmentEntityRepository = invesmentEntityRepository;
         }
 
-        public async Task<InvestmentEntity> GetInvesmentEntities(int projectId)
+        public async Task<InvestmentEntity> GetInvesment(int projectId)
         {
             try
             {
-                return await invesmentEntityRepository.GetInvesmentEntities(projectId);
+                return await invesmentEntityRepository.GetInvesment(projectId);
             }
             catch (Exception)
             {
@@ -25,6 +25,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
                 throw;
             }
 
+        }
+
+        public async Task<IEnumerable<InvestmentEntity>> GetInvesmentEntities(int projectId)
+        {
+            return await invesmentEntityRepository.GetInvesmentEntities(projectId);
         }
 
         public async Task<IEnumerable<InvestmentEntity>> GetInvesmentEntity(int idSolution)

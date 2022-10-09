@@ -2,6 +2,7 @@
 using SmartSolution.Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static Dapper.SqlMapper;
 
 namespace SmartSolution.Infraestructure.Data.Repositories
 {
@@ -32,8 +33,8 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                var data = GetAsync(guid);
-                _repository.Set<TEntity>().Remove(data.Result);
+                var data = await GetAsync(guid);
+                _repository.Set<TEntity>().Remove(data);
                 return await _repository.SaveChangesAsync();
             }
             catch (Exception)
@@ -58,15 +59,15 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                var data = await _repository.Set<TEntity>().FindAsync(guid);
+                var data = await _repository.Set<TEntity>()
+                    .FindAsync(guid);
 
-                if (data == null)
+                if (data is null)
                 {
-                    throw new Exception("Couldn't find the object");
+                    throw new Exception("Couldn't found that register in the db");
                 }
 
-                return await Task.FromResult(data);
-
+                return data;
             }
             catch (Exception)
             {
@@ -81,7 +82,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 _repository.Entry(entity).State = EntityState.Modified;
                 _repository.Set<TEntity>().Update(entity);
-                await Task.CompletedTask;
+                await _repository.SaveChangesAsync();
                 return true;
             }
             catch (Exception)

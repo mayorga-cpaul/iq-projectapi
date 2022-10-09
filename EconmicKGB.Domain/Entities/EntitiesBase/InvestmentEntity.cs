@@ -9,12 +9,11 @@
         public bool IsPorcentage { get; set; }  
         public decimal? Contribution { get; set; }
         public decimal? Tmar { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string TipoDeAmortización { get; set; } = String.Empty!;
         public string? Dni { get; set; }
         public bool MoneyLoan { get; set; }
         public bool? FeeLevel { get; set; }
         public int LoanTerm { get; set; }
-
         public virtual Project Project { get; set; } = null!;
     }
 }

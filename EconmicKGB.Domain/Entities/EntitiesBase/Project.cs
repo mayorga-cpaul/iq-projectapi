@@ -26,6 +26,7 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
         public decimal TMAR { get; set; }
         public DateTime CreationDate { get; set; }
         public decimal TMARMixta { get; set; }
+        public decimal Contribution { get; set; }
         public virtual Solution Solution { get; set; } = null!;
         public virtual ICollection<InvesmentArea> InvestmentArea { get; set; }
         public virtual ICollection<ProjectCost> ProjectCosts { get; set; }

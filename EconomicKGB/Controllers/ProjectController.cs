@@ -28,7 +28,7 @@ namespace SmartSolution.API.Controllers
 
         }
         [HttpPatch]
-        public async Task<ActionResult> UpdateAsync(Int32 id, ProjectDto projectDto)
+        public async Task<ActionResult> UpdateAsync(int id, ProjectDto projectDto)
         {
             try
             {
@@ -42,11 +42,11 @@ namespace SmartSolution.API.Controllers
 
         [HttpGet]
         [Route("getByIdAsync")]
-        public async Task<ActionResult> GetByIdAsync(int projectid)
+        public async Task<ActionResult> GetByIdAsync(int id)
         {
             try
             {
-                var projectDto = (await repository.GetAsync(projectid));
+                var projectDto = (await repository.GetAsync(id));
 
                 return Ok(projectDto);
             }
@@ -58,18 +58,18 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteAsync(int projectid)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
             try
             {
-                var existingItem = await repository.GetAsync(projectid);
+                var existingItem = await repository.GetAsync(id);
 
                 if (existingItem is null)
                 {
                     return NotFound();
                 }
 
-                int result = await repository.DeleteAsync(projectid);
+                int result = await repository.DeleteAsync(id);
 
                 return Ok(result);
             }

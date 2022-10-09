@@ -64,19 +64,19 @@ namespace SmartSolution.API.Controllers
 
         }
 
-        [HttpPatch("{Id}, {ConversionDto}")]
-        public async Task<ActionResult> UpdateConversionAsync(Int32 Id, ConversionDto conversionDto)
+        [HttpPatch]
+        public async Task<ActionResult> UpdateConversionAsync(int id, ConversionDto conversionDto)
         {
             try
             {
-                var existingItem = await repository.GetAsync(Id);
+                var existingItem = await repository.GetAsync(id);
 
                 if (existingItem == null)
                 {
                     return NotFound();
                 }
 
-                bool result = await repository.UpdateAsync(Id, conversionDto);
+                bool result = await repository.UpdateAsync(id, conversionDto);
 
                 return Ok(result);
             }
@@ -87,8 +87,8 @@ namespace SmartSolution.API.Controllers
 
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<ActionResult> DeleteConversionAsync(Int32 id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteConversionAsync(int id)
         {
             try
             {

@@ -13,11 +13,18 @@ namespace SmartSolution.Application.Interfaces.IRepositories
         Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntitiesAsync(Int32 idSolution);
 
         /// <summary>
+        /// Get  the invesment by projectId
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        Task<InvestmentEntityDto> GetInvesmentAsync(int projectId);
+
+        /// <summary>
         /// Get All the invesment by projectId
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<InvestmentEntityDto> GetInvesmentAsync(Int32 projectId);
+        Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntities(int projectId);
 
         /// <summary>
         /// Add one Invesment Entity to project

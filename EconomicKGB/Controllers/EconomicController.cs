@@ -50,7 +50,7 @@ namespace SmartSolution.API.Controllers
 
         [HttpGet]
         [Route("interest/{userId}")]
-        public async Task<ActionResult<RateDto>> GetInteresAsync(Int32 userId)
+        public async Task<ActionResult<RateDto>> GetInteresAsync(int userId)
         {
             try
             {
@@ -132,18 +132,18 @@ namespace SmartSolution.API.Controllers
         }
         
         [HttpPatch]
-        public async Task<ActionResult> UpdateEconomicAsync(Int32 Id, EconomicDto economicDto)
+        public async Task<ActionResult> UpdateEconomicAsync(int id, EconomicDto economicDto)
         {
             try
             {
-                var existingEconomic = await repository.GetAsync(Id);
+                var existingEconomic = await repository.GetAsync(id);
 
                 if (existingEconomic == null)
                 {
                     return NotFound();
                 }
 
-                bool result = await repository.UpdateAsync(Id, economicDto);
+                bool result = await repository.UpdateAsync(id, economicDto);
 
                 return Ok(result);
             }
@@ -155,7 +155,7 @@ namespace SmartSolution.API.Controllers
 
         [HttpDelete]
         [Route("delete/{Id}")]
-        public async Task<ActionResult> DeleteEconomicAsync(Int32 id)
+        public async Task<ActionResult> DeleteEconomicAsync(int id)
         {
             try
             {

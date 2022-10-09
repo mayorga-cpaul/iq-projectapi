@@ -45,13 +45,19 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
 
         public async Task<InvestmentEntityDto> GetInvesmentAsync(int projectId)
         {
-            var invesments = await repository.GetInvesmentEntities(projectId);
+            var invesments = await repository.GetInvesment(projectId);
             return mapper.Map<InvestmentEntityDto>(invesments);
+        }
+
+        public async Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntities(int projectId)
+        {
+            var invesments = await repository.GetInvesmentEntities(projectId);
+            return mapper.Map<IEnumerable<InvestmentEntityDto>>(invesments);
         }
 
         public async Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntitiesAsync(int idSolution)
         {
-            var invesmentEntities = await repository.GetInvesmentEntities(idSolution);
+            var invesmentEntities = await repository.GetInvesmentEntity(idSolution);
             return mapper.Map<IEnumerable<InvestmentEntityDto>>(invesmentEntities);
         }
 

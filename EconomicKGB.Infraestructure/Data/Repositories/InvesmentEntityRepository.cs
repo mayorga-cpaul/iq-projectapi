@@ -1,4 +1,5 @@
-﻿using SmartSolution.Domain.EconomicContext;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartSolution.Domain.EconomicContext;
 using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Domain.Interfaces.Repository;
 
@@ -12,21 +13,50 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             this.repository = repository;
         }
 
-        public async Task<InvestmentEntity> GetInvesmentEntities(int projectId)
+        public async Task<InvestmentEntity> GetInvesment(int projectId)
         {
             try
             {
-                var data = repository.EntidadInvs.FindAsync(projectId);
+                bool exist = await repository.EntidadInvs
+                    .AnyAsync(e => e.ProjectId == projectId);
 
-                if (data.Result is null)
+                if (exist)
                 {
-                    throw new Exception("Couldn't find the object");
+                    var invesment = (await repository.EntidadInvs.
+                        FirstOrDefaultAsync(e => e.ProjectId == projectId));
+                    if (invesment is null)
+                        throw new Exception("La entidad inversora no existe");
+                    return invesment;
                 }
-
-                return await Task.FromResult(data.Result);
+                else
+                {
+                    throw new Exception("La entidad inversora no existe");
+                }
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<InvestmentEntity>> GetInvesmentEntities(int projectId)
+        {
+            try
+            {
+                bool exist = await repository.Projects.AnyAsync(e => e.Id == projectId);
+
+                if (exist)
+                {
+                    return repository.EntidadInvs.Where(e => e.ProjectId == projectId);
+                }
+                else
+                {
+                    throw new Exception("Error");
+                }
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }
@@ -37,11 +67,12 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 List<InvestmentEntity> entidadInvs = new List<InvestmentEntity>();
 
-                foreach (var item in GetProjectBySolution(idSolution).Result)
+                foreach (var item in await GetProjectBySolution(idSolution))
                 {
                     entidadInvs.AddRange(repository.EntidadInvs.Where(e => e.ProjectId == item.Id));
                 }
-                return await Task.FromResult(entidadInvs);
+
+                return entidadInvs;
             }
             catch (Exception)
             {
