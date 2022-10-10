@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SmartSolution.Infraestructure.Migrations
 {
-    public partial class feature : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,11 +17,11 @@ namespace SmartSolution.Infraestructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ProfileImage = table.Column<byte[]>(type: "image", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DNI = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Password = table.Column<byte[]>(type: "varbinary(800)", maxLength: 800, nullable: true),
-                    Creation = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Creation = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    State = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,6 +63,7 @@ namespace SmartSolution.Infraestructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     SolutionName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -109,6 +110,29 @@ namespace SmartSolution.Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FlujoDeCaja",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PresentValue = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    FutureValue = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    TasaDeInteres = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    Duracion = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    Periodo = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    SolutionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlujoDeCaja", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FlujoDeCaIdSol_03F0984C",
+                        column: x => x.SolutionId,
+                        principalTable: "Solution",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Project",
                 columns: table => new
                 {
@@ -116,13 +140,14 @@ namespace SmartSolution.Infraestructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SolutionId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Decription = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true),
+                    Description = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true),
                     Period = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
-                    WithFinancement = table.Column<bool>(type: "bit", nullable: false),
-                    RecoveryCt = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    WithFinancing = table.Column<bool>(type: "bit", nullable: false),
                     TMAR = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TMARMixta = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    Contribution = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,6 +160,55 @@ namespace SmartSolution.Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FlujoDeCajaDetalle",
+                columns: table => new
+                {
+                    IdFlujoDeCaja = table.Column<int>(type: "int", nullable: false),
+                    IdEconomic = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.ForeignKey(
+                        name: "FK_FlujoDeCaIdEco_05D8E0BE",
+                        column: x => x.IdEconomic,
+                        principalTable: "Economic",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FlujoDeCaIdFlu_04E4BC85",
+                        column: x => x.IdFlujoDeCaja,
+                        principalTable: "FlujoDeCaja",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Asset",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AmountResidual = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Terms = table.Column<int>(type: "int", nullable: false),
+                    DepreciationRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Asset", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Asset_Project_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Project",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InvesmentArea",
                 columns: table => new
                 {
@@ -142,13 +216,10 @@ namespace SmartSolution.Infraestructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsInTheFirstYear = table.Column<bool>(type: "bit", nullable: false),
                     Start = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    IsDepreciable = table.Column<bool>(type: "bit", nullable: false),
-                    LifeSpan = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     IsDiferida = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "(CONVERT([bit],(0)))"),
-                    Metodo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RecoveryCt = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -171,10 +242,8 @@ namespace SmartSolution.Infraestructure.Migrations
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IsPorcentage = table.Column<bool>(type: "bit", nullable: false),
                     Contribution = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
-                    TMAR = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
-                    ProfileImage = table.Column<byte[]>(type: "image", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    DNI = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    TipoDeAmortización = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MoneyLoan = table.Column<bool>(type: "bit", nullable: false),
                     ANivelada = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "(CONVERT([bit],(0)))"),
                     LoanTerm = table.Column<int>(type: "int", nullable: false)
@@ -262,6 +331,11 @@ namespace SmartSolution.Infraestructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Asset_ProjectId",
+                table: "Asset",
+                column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Conversion_UserId",
                 table: "Conversion",
                 column: "UserId");
@@ -270,6 +344,21 @@ namespace SmartSolution.Infraestructure.Migrations
                 name: "IX_Economic_SolutionId",
                 table: "Economic",
                 column: "SolutionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlujoDeCaja_SolutionId",
+                table: "FlujoDeCaja",
+                column: "SolutionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlujoDeCajaDetalle_IdEconomic",
+                table: "FlujoDeCajaDetalle",
+                column: "IdEconomic");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlujoDeCajaDetalle_IdFlujoDeCaja",
+                table: "FlujoDeCajaDetalle",
+                column: "IdFlujoDeCaja");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvesmentArea_ProjectId",
@@ -310,10 +399,13 @@ namespace SmartSolution.Infraestructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Asset");
+
+            migrationBuilder.DropTable(
                 name: "Conversion");
 
             migrationBuilder.DropTable(
-                name: "Economic");
+                name: "FlujoDeCajaDetalle");
 
             migrationBuilder.DropTable(
                 name: "InvesmentArea");
@@ -329,6 +421,12 @@ namespace SmartSolution.Infraestructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProjectExpense");
+
+            migrationBuilder.DropTable(
+                name: "Economic");
+
+            migrationBuilder.DropTable(
+                name: "FlujoDeCaja");
 
             migrationBuilder.DropTable(
                 name: "Project");

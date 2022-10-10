@@ -1,4 +1,5 @@
-﻿using SmartSolution.Domain.EconomicContext;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartSolution.Domain.EconomicContext;
 using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Domain.Interfaces.Repository;
 
@@ -16,7 +17,17 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                return await Task.FromResult(repository.AreaInversions.Where(e => e.ProjectId == projectId));
+                bool exist = await repository.AreaInversions.AnyAsync(e => e.ProjectId == projectId);
+
+                if (exist)
+                {
+                    return repository.AreaInversions.Where(e => e.ProjectId == projectId);
+                }
+                else
+                {
+                    throw new Exception($"El proyecto con ID: {projectId} no existe");
+                }
+
             }
             catch (Exception)
             {

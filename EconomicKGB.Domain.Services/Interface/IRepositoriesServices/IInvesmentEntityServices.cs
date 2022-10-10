@@ -6,25 +6,24 @@ namespace SmartSolution.Services.Interface.IRepositoriesServices
     public interface IInvesmentEntityServices : IRepositoryServices<InvestmentEntity>
     {
         /// <summary>
-        /// Get All the entities by SolutionId
-        /// </summary>
-        /// <param name="idSolution"></param>
-        /// <returns></returns>
-        Task<IEnumerable<InvestmentEntity>> GetInvesmentEntity(Int32 idSolution);
-
-        /// <summary>
-        /// Get  the invesment by projectId
-        /// </summary>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
-        Task<InvestmentEntity> GetInvesment(int projectId);
-
-        /// <summary>
         /// Get All the invesment by projectId
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<IEnumerable<InvestmentEntity>> GetInvesmentEntities(int projectId);
+        Task<IEnumerable<InvestmentEntity>> GetByProjectIdAsync(int projectId);
+        /// <summary>
+        /// Get All the entities by SolutionId
+        /// </summary>
+        /// <param name="solutionId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<InvestmentEntity>> GetBySolutionIdAsync(int solutionId);
+
+        /// <summary>
+        /// Get one invesment by projectId
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        Task<InvestmentEntity> GetOneInvesmentAsync(int projectId);
 
         /// <summary>
         /// Add one Invesment Entity to project
@@ -33,6 +32,13 @@ namespace SmartSolution.Services.Interface.IRepositoriesServices
         /// <param name="projectId"></param>
         /// <returns></returns>
         Task<bool> SetInvesmentEntityAsync(InvestmentEntity entidadInvs);
+
+        /// <summary>
+        /// Get Uniques names of the invesment
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<UniqueName>> GetUniqueNames(int solutionId);
 
     }
 }

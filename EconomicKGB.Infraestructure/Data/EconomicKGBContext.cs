@@ -25,6 +25,9 @@ namespace SmartSolution.Domain.EconomicContext
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Solution> Solutions { get; set; } = null!;
         public virtual DbSet<User> Usuarios { get; set; } = null!;
+        public virtual DbSet<Asset> Assets { get; set; } = null!;
+        public virtual DbSet<FlujoDeCaja> FlujoDeCajas { get; set; } = null!;
+        public virtual DbSet<FlujoDeCajaDetalle> FlujoDeCajaDetalles { get; set; } = null!;
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
@@ -39,6 +42,27 @@ namespace SmartSolution.Domain.EconomicContext
         {
             modelBuilder.UseCollation("Modern_Spanish_CI_AS");
 
+
+
+            modelBuilder.Entity<FlujoDeCajaDetalle>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("FlujoDeCajaDetalle");
+
+                entity.HasOne(d => d.IdEconomicNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdEconomic)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FlujoDeCaIdEco_05D8E0BE");
+
+                entity.HasOne(d => d.IdFlujoDeCajaNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdFlujoDeCaja)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FlujoDeCaIdFlu_04E4BC85");
+            });
+
             modelBuilder.Entity<InvesmentArea>(entity =>
             {
                 entity.ToTable(nameof(InvesmentArea));
@@ -46,15 +70,14 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.HasIndex(e => e.ProjectId, "IX_InvesmentArea_ProjectId");
                 entity.Property(e => e.Name).HasMaxLength(100);
-                entity.Property(e => e.IsInTheFirstYear);
                 entity.Property(e => e.Start);
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 0)");
-                entity.Property(e => e.IsDepreciable);
-                entity.Property(e => e.LifeSpan).HasColumnType("decimal(18, 0)");
                 entity.Property(e => e.IsDiferida)
                     .IsRequired()
                     .HasDefaultValueSql("(CONVERT([bit],(0)))");
-                entity.Property(e => e.Metodo);
+
+                entity.Property(e => e.RecoveryCt);
+
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.InvestmentArea)
                     .HasForeignKey(d => d.ProjectId)
@@ -109,6 +132,27 @@ namespace SmartSolution.Domain.EconomicContext
                     .HasConstraintName("fk_ProjectCost");
             });
 
+
+            modelBuilder.Entity<Asset>(entity =>
+            {
+                entity.ToTable(nameof(Asset));
+                entity.HasIndex(e => e.ProjectId, "IX_Asset_ProjectId");
+                entity.Property(e => e.Name);
+                entity.Property(e => e.Description);
+                entity.Property(e => e.Amount);
+                entity.Property(e => e.AmountResidual);
+                entity.Property(e => e.Terms);
+                entity.Property(e => e.DepreciationRate);
+                entity.Property(e => e.Code);
+                entity.Property(e => e.Status);
+                entity.Property(e => e.IsActive);
+
+                entity.HasOne(d => d.Project)
+                .WithMany(p => p.Assets)
+                .HasForeignKey(d => d.ProjectId);
+
+            });
+
             modelBuilder.Entity<Economic>(entity =>
             {
                 entity.ToTable(nameof(Economic));
@@ -124,25 +168,25 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.Property(e => e.NumPeriodos).HasColumnType("decimal(18, 3)");
 
                 entity.Property(e => e.Discriminator);
-                
+
                 entity.Property(e => e.PagoAnual);
-                
+
                 entity.Property(e => e.TipoAnualidad);
-                
+
                 entity.Property(e => e.PeriodoGracia);
-                
+
                 entity.Property(e => e.Periodo);
-                
+
                 entity.Property(e => e.TipoInteres);
-                
+
                 entity.Property(e => e.FrecuenciaTasa);
-                
+
                 entity.Property(e => e.Crecimiento);
-                
+
                 entity.Property(e => e.FuturoGradiente);
-                
+
                 entity.Property(e => e.TipoDeCrecimiento);
-                
+
                 entity.HasOne(d => d.Solution)
                     .WithMany(p => p.Economics)
                     .HasForeignKey(d => d.SolutionId);
@@ -162,23 +206,17 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.Contribution).HasColumnType("decimal(18, 0)");
 
-                entity.Property(e => e.Dni)
-                    .HasMaxLength(100)
-                    .HasColumnName("DNI");
-
                 entity.Property(e => e.Email).HasMaxLength(100);
                 entity.Property(e => e.IsPorcentage);
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.TipoDeAmortización).HasMaxLength(50);
 
-                entity.Property(e => e.Tmar)
-                    .HasColumnType("decimal(18, 0)")
-                    .HasColumnName("TMAR");
-
                 entity.Property(e => e.MoneyLoan);
 
                 entity.Property(e => e.LoanTerm);
+
+                entity.Property(e => e.Rate);
 
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.InvestmentEntities)
@@ -240,7 +278,7 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.HasIndex(e => e.SolutionId, "IX_Project_SolutionId");
 
-                entity.Property(e => e.Decription)
+                entity.Property(e => e.Description)
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
@@ -248,19 +286,39 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.Period).HasMaxLength(100);
 
-                entity.Property(e => e.RecoveryCt);
-
                 entity.Property(e => e.CreationDate);
                 entity.Property(e => e.Duration);
                 entity.Property(e => e.TMAR).HasColumnType("decimal(18, 0)");
-                entity.Property(e => e.WithFinancement);
+                entity.Property(e => e.WithFinancing);
                 entity.Property(e => e.TMARMixta).HasColumnType("decimal(18, 0)");
                 entity.Property(e => e.Contribution).HasColumnType("decimal(18, 0)");
+                
                 entity.HasOne(d => d.Solution)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.SolutionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_Solution");
+            });
+
+            modelBuilder.Entity<FlujoDeCaja>(entity =>
+            {
+                entity.ToTable("FlujoDeCaja");
+
+                entity.Property(e => e.Duracion).HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.FutureValue).HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.PresentValue).HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.TasaDeInteres).HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.Periodo).HasColumnType("decimal(18, 3)");
+
+                entity.HasOne(d => d.Solution)
+                    .WithMany(p => p.FlujoDeCajas)
+                    .HasForeignKey(d => d.SolutionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FlujoDeCaIdSol_03F0984C");
             });
 
             modelBuilder.Entity<Solution>(entity =>

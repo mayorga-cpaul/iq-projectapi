@@ -40,7 +40,7 @@ namespace SmartSolution.Application.Interfaces.IRepositories
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        Task<string> RecoveryPasswordAsync(string email);
+        Task<Recovery> RecoveryPasswordAsync(string email);
         /// <summary>
         /// Update the user with sp
         /// </summary>

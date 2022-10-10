@@ -2,6 +2,7 @@
 using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Formats.Asn1;
 
 namespace SmartSolution.Infraestructure.Data.Repositories
 {
@@ -24,6 +25,11 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 throw;
             }
+        }
+
+        public async Task<int> LastCreated()
+        {
+            return await repository.Projects.MaxAsync(e => e.Id);
         }
 
         public async Task<bool> SetProjectToSolution(Project project)

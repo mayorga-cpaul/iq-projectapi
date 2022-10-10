@@ -6,10 +6,10 @@ namespace SmartSolution.Infraestructure.Data.Repositories
     public abstract class MasterMailServer
     {
         //Atributos
-        private SmtpClient smtpClient;
-        protected string senderMail { get; set; }
-        protected string password { get; set; }
-        protected string host { get; set; }
+        private SmtpClient smtpClient = null!;
+        protected string senderMail { get; set; } = String.Empty;
+        protected string password { get; set; } = String.Empty;
+        protected string host { get; set; } = String.Empty;
         protected int port { get; set; }
         protected bool ssl { get; set; }
 

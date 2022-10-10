@@ -16,5 +16,12 @@ namespace SmartSolution.Domain.Interfaces.Repository
         /// <param name="solutionId"></param>
         /// <returns></returns>
         Task<IEnumerable<Project>> GetProjectsBySolAsync(Int32 solutionId);
+
+        /// <summary>
+        /// Get the last ID of project
+        /// </summary>
+        /// <param name="solutionId"></param>
+        /// <returns></returns>
+        Task<int> LastCreated();
     }
 }

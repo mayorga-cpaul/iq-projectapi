@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using SmartSolution.Domain.Entities.EntitiesBase;
 using Microsoft.Data.SqlClient;
 using static Dapper.SqlMapper;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SmartSolution.Infraestructure.Data.Repositories
 {
@@ -28,11 +29,11 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                     throw new ArgumentNullException(nameof(entity));
                 }
 
-                if (! await ExistEmailAsync(entity.Email) && entity.Password != null)
+                if (!await ExistEmailAsync(entity.Email) && entity.Password != null)
                 {
                     string pass = Encoding.Default.GetString(bytes: entity.Password);
 
-                    using (var connection = new SqlConnection(repository.Database.GetConnectionString()))
+                    using (var connection = repository.Database.GetDbConnection())
                     {
                         var result = await connection.ExecuteAsync("sp_Registras", new
                         {
@@ -65,9 +66,9 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                return (await (ExistEmailAsync(email)) 
-                    ? (password.Equals(DescryptPassword(email)) 
-                    ? true : false) 
+                return (await (ExistEmailAsync(email))
+                    ? (password.Equals(await DescryptPassword(email))
+                    ? true : false)
                     : throw new Exception("Contraseña incorrecta"));
             }
             catch (Exception)
@@ -76,14 +77,13 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        private string DescryptPassword(string email)
+        private async Task<string> DescryptPassword(string email)
         {
             try
             {
-                using (var connection = new SqlConnection(repository.Database.GetConnectionString()))
+                using (var connection = repository.Database.GetDbConnection())
                 {
-                    _ = GetByEmailAsync(email);
-                    var result = connection.Query<RecoverPassword>("Recover", new { email = email }, commandType: CommandType.StoredProcedure);
+                    var result = await connection.QueryAsync<RecoverPassword>("Recover", new { email = email }, commandType: CommandType.StoredProcedure);
                     return Regex.Replace(result.ToList()[0].Password!, @"\0", "");
                 }
             }
@@ -168,7 +168,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                     throw new Exception($"El usuario con id {userId} no existe");
                 }
 
-                return await Task.FromResult(repository.Solutions.Where(e => e.UserId == userId));
+                return repository.Solutions.Where(e => e.UserId == userId);
             }
             catch (Exception)
             {
@@ -177,7 +177,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
 
         }
 
-        public async Task<string> RecoveryPasswordAsync(string e_mail)
+        public async Task<Recovery> RecoveryPasswordAsync(string e_mail)
         {
             try
             {
@@ -187,16 +187,26 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                     IMailRepository mailRepository = new MailRepository();
                     mailRepository.SendMail(subject: "SYSTEM: Password recovery request",
                     body: "Hi, " + get.Name + "\nYou Requested to Recover your password.\n" +
-                    "your current password is: " + $" {DescryptPassword(e_mail)}" +
+                    "your current password is: " + $" {(await DescryptPassword(e_mail))}" +
                     "\nHowever, we ask that you change your password inmediately once you enter the system.",
                     recipientMail: new List<string> { get.Email });
-                    return "Hi, " + get.Name + "\nYou Requested to Recover your password.\n" +
-                    "Please check your mail: " + get.Email +
-                    "\nHowever, we ask that you change your password inmediately once you enter the system.";
+
+                    Recovery recovery = new Recovery()
+                    {
+                        Message = "Hi, " + get.Name + "\nYou Requested to Recover your password.\n" +
+                                        "Please check your mail: " + get.Email +
+                                        "\nHowever, we ask that you change your password inmediately once you enter the system.",
+                    };
+
+                    return recovery;
                 }
                 else
                 {
-                    return "Sorry, you do not have an account with that mail or username";
+                    Recovery recovery = new Recovery()
+                    {
+                        Message = "Sorry, you do not have an account with that mail or username"
+                    };
+                    return recovery;
                 }
             }
             catch (Exception)
@@ -233,7 +243,6 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                             creacion = entity.Creation,
 
                         }, commandType: CommandType.StoredProcedure);
-
                         return true;
                     }
                 }

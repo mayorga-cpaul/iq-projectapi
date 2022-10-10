@@ -49,6 +49,11 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return projectsDto;
         }
 
+        public async Task<int> LastCreated()
+        {
+            return await projectServices.LastCreated();
+        }
+
         public async Task<bool> SetProjectToSolutionAsync(ProjectDto projectDto)
         {
             var project = mapper.Map<Project>(projectDto);

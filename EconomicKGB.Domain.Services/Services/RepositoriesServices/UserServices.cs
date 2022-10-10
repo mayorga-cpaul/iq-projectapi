@@ -67,7 +67,7 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<string> RecoveryPasswordAsync(string email)
+        public async Task<Recovery> RecoveryPasswordAsync(string email)
         {
             try
             {

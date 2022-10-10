@@ -108,6 +108,23 @@ namespace SmartSolution.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getLast")]
+        public async Task<ActionResult> GetLastAdded()
+        {
+            try
+            {
+                var solutionDto = (await repository.LastCreated());
+
+                return Ok(solutionDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         #endregion
     }
 }

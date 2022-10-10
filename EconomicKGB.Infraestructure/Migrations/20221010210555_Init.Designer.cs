@@ -12,8 +12,8 @@ using SmartSolution.Domain.EconomicContext;
 namespace SmartSolution.Infraestructure.Migrations
 {
     [DbContext(typeof(EconomicKGBContext))]
-    [Migration("20221001055646_feature")]
-    partial class feature
+    [Migration("20221010210555_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,56 @@ namespace SmartSolution.Infraestructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.Asset", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AmountResidual")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DepreciationRate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Terms")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "ProjectId" }, "IX_Asset_ProjectId");
+
+                    b.ToTable("Asset", (string)null);
+                });
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.Conversion", b =>
                 {
@@ -128,6 +178,54 @@ namespace SmartSolution.Infraestructure.Migrations
                     b.ToTable("Economic", (string)null);
                 });
 
+            modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCaja", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Duracion")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("FutureValue")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("Periodo")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<decimal>("PresentValue")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<int>("SolutionId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TasaDeInteres")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SolutionId");
+
+                    b.ToTable("FlujoDeCaja", (string)null);
+                });
+
+            modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCajaDetalle", b =>
+                {
+                    b.Property<int>("IdEconomic")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdFlujoDeCaja")
+                        .HasColumnType("int");
+
+                    b.HasIndex("IdEconomic");
+
+                    b.HasIndex("IdFlujoDeCaja");
+
+                    b.ToTable("FlujoDeCajaDetalle", (string)null);
+                });
+
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.InvesmentArea", b =>
                 {
                     b.Property<int>("Id")
@@ -139,23 +237,11 @@ namespace SmartSolution.Infraestructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,0)");
 
-                    b.Property<bool>("IsDepreciable")
-                        .HasColumnType("bit");
-
                     b.Property<bool?>("IsDiferida")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValueSql("(CONVERT([bit],(0)))");
-
-                    b.Property<bool>("IsInTheFirstYear")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("LifeSpan")
-                        .HasColumnType("decimal(18,0)");
-
-                    b.Property<string>("Metodo")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
@@ -163,6 +249,9 @@ namespace SmartSolution.Infraestructure.Migrations
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("RecoveryCt")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Start")
                         .HasColumnType("int");
@@ -184,11 +273,6 @@ namespace SmartSolution.Infraestructure.Migrations
 
                     b.Property<decimal?>("Contribution")
                         .HasColumnType("decimal(18,0)");
-
-                    b.Property<string>("Dni")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("DNI");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -216,19 +300,16 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("image");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Tmar")
-                        .HasColumnType("decimal(18,0)")
-                        .HasColumnName("TMAR");
+                    b.Property<decimal?>("Rate")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("TipoDeAmortización")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -245,10 +326,13 @@ namespace SmartSolution.Infraestructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<decimal>("Contribution")
+                        .HasColumnType("decimal(18,0)");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Decription")
+                    b.Property<string>("Description")
                         .HasMaxLength(500)
                         .IsUnicode(false)
                         .HasColumnType("varchar(500)");
@@ -266,16 +350,16 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("RecoveryCt")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("SolutionId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TMAR")
                         .HasColumnType("decimal(18,0)");
 
-                    b.Property<bool>("WithFinancement")
+                    b.Property<decimal>("TMARMixta")
+                        .HasColumnType("decimal(18,0)");
+
+                    b.Property<bool>("WithFinancing")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -407,6 +491,11 @@ namespace SmartSolution.Infraestructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<string>("SolutionName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -456,12 +545,23 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("image");
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.Asset", b =>
+                {
+                    b.HasOne("SmartSolution.Domain.Entities.EntitiesBase.Project", "Project")
+                        .WithMany("Assets")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.Conversion", b =>
@@ -484,6 +584,36 @@ namespace SmartSolution.Infraestructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Solution");
+                });
+
+            modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCaja", b =>
+                {
+                    b.HasOne("SmartSolution.Domain.Entities.EntitiesBase.Solution", "Solution")
+                        .WithMany("FlujoDeCajas")
+                        .HasForeignKey("SolutionId")
+                        .IsRequired()
+                        .HasConstraintName("FK_FlujoDeCaIdSol_03F0984C");
+
+                    b.Navigation("Solution");
+                });
+
+            modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCajaDetalle", b =>
+                {
+                    b.HasOne("SmartSolution.Domain.Entities.EntitiesBase.Economic", "IdEconomicNavigation")
+                        .WithMany()
+                        .HasForeignKey("IdEconomic")
+                        .IsRequired()
+                        .HasConstraintName("FK_FlujoDeCaIdEco_05D8E0BE");
+
+                    b.HasOne("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCaja", "IdFlujoDeCajaNavigation")
+                        .WithMany()
+                        .HasForeignKey("IdFlujoDeCaja")
+                        .IsRequired()
+                        .HasConstraintName("FK_FlujoDeCaIdFlu_04E4BC85");
+
+                    b.Navigation("IdEconomicNavigation");
+
+                    b.Navigation("IdFlujoDeCajaNavigation");
                 });
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.InvesmentArea", b =>
@@ -565,6 +695,8 @@ namespace SmartSolution.Infraestructure.Migrations
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.Project", b =>
                 {
+                    b.Navigation("Assets");
+
                     b.Navigation("InvestmentArea");
 
                     b.Navigation("InvestmentEntities");
@@ -579,6 +711,8 @@ namespace SmartSolution.Infraestructure.Migrations
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.Solution", b =>
                 {
                     b.Navigation("Economics");
+
+                    b.Navigation("FlujoDeCajas");
 
                     b.Navigation("Projects");
                 });

@@ -82,7 +82,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return userDto;
         }
 
-        public async Task<string> RecoveryPasswordAsync(string email)
+        public async Task<Recovery> RecoveryPasswordAsync(string email)
         {
             return await userServices.RecoveryPasswordAsync(email);
         }

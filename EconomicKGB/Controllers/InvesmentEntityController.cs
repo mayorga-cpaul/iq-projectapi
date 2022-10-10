@@ -15,7 +15,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult> UpdateAsync(int id, InvestmentEntityDto projectCostDto)
+        public async Task<ActionResult> UpdateAsync(int id, InvestmentEntityDto invesmentEntityDto)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace SmartSolution.API.Controllers
                     return NotFound();
                 }
 
-                return Ok(await repository.UpdateAsync(id, projectCostDto));
+                return Ok(await repository.UpdateAsync(id, invesmentEntityDto));
             }
             catch (Exception ex)
             {
@@ -56,11 +56,11 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> SetInvesmentAsync(InvestmentEntityDto entidadInvs)
+        public async Task<ActionResult> SetInvesmentAsync(InvestmentEntityDto invesmentEntity)
         {
             try
             {
-                return Ok(await repository.SetInvesmentEntityAsync(entidadInvs));
+                return Ok(await repository.SetInvesmentEntityAsync(invesmentEntity));
             }
             catch (Exception ex)
             {
@@ -69,11 +69,26 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<InvestmentEntityDto>> GetInvesmentAsync(int solutionId)
+        public async Task<ActionResult<InvestmentEntityDto>> GetBySolutionIdAsync(int solutionId)
         {
             try
             {
-                return Ok(await repository.GetInvesmentAsync(solutionId));
+                return Ok(await repository.GetBySolutionIdAsync(solutionId));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getUniques")]
+        public async Task<ActionResult<InvestmentEntityDto>> GetUniquesNames(int solutionId)
+        {
+            try
+            {
+                return Ok(await repository.GetUniqueNames(solutionId));
+
             }
             catch (Exception ex)
             {
@@ -83,11 +98,11 @@ namespace SmartSolution.API.Controllers
 
         [HttpGet]
         [Route("getByIdAsync")]
-        public async Task<ActionResult> GetInvesment(int id)
+        public async Task<ActionResult> GetOneInvesmentAsync(int id)
         {
             try
             {
-                return Ok(await repository.GetInvesmentAsync(id));
+                return Ok(await repository.GetOneInvesmentAsync(id));
             }
             catch (Exception ex)
             {
@@ -96,12 +111,12 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("getInvesmentBySolutionId")]
-        public async Task<ActionResult<InvestmentEntityDto>> GetInvesmentEntities(int projectId)
+        [Route("GetByProjectIdAsync")]
+        public async Task<ActionResult<InvestmentEntityDto>> GetByProjectIdAsync(int projectId)
         {
             try
             {
-                return Ok(await repository.GetInvesmentEntities(projectId));
+                return Ok(await repository.GetByProjectIdAsync(projectId));
             }
             catch (Exception ex)
             {

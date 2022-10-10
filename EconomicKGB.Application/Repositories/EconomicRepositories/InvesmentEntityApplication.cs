@@ -43,21 +43,21 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return investmentEntityDto;
         }
 
-        public async Task<InvestmentEntityDto> GetInvesmentAsync(int projectId)
+        public async Task<InvestmentEntityDto> GetOneInvesmentAsync(int projectId)
         {
-            var invesments = await repository.GetInvesment(projectId);
+            var invesments = await repository.GetOneInvesmentAsync(projectId);
             return mapper.Map<InvestmentEntityDto>(invesments);
         }
 
-        public async Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntities(int projectId)
+        public async Task<IEnumerable<InvestmentEntityDto>> GetByProjectIdAsync(int projectId)
         {
-            var invesments = await repository.GetInvesmentEntities(projectId);
+            var invesments = await repository.GetByProjectIdAsync(projectId);
             return mapper.Map<IEnumerable<InvestmentEntityDto>>(invesments);
         }
 
-        public async Task<IEnumerable<InvestmentEntityDto>> GetInvesmentEntitiesAsync(int idSolution)
+        public async Task<IEnumerable<InvestmentEntityDto>> GetBySolutionIdAsync(int idSolution)
         {
-            var invesmentEntities = await repository.GetInvesmentEntity(idSolution);
+            var invesmentEntities = await repository.GetBySolutionIdAsync(idSolution);
             return mapper.Map<IEnumerable<InvestmentEntityDto>>(invesmentEntities);
         }
 
@@ -72,6 +72,19 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             var investmentEntity = mapper.Map<InvestmentEntity>(entity);
             investmentEntity.Id = id;
             return await repository.UpdateAsync(investmentEntity);
+        }
+
+        public async Task<IEnumerable<UniqueName>> GetUniqueNames(int solutionId)
+        {
+            try
+            {
+                return await repository.GetUniqueNames(solutionId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

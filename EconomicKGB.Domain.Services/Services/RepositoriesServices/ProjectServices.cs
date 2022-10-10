@@ -26,6 +26,11 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             }
         }
 
+        public async Task<int> LastCreated()
+        {
+            return await projectRepository.LastCreated();
+        }
+
         public async Task<bool> SetProjectToSolutionAsync(Project project)
         {
             return await projectRepository.SetProjectToSolution(project);

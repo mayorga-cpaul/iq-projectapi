@@ -13,11 +13,11 @@ namespace SmartSolution.Services.Services.RepositoriesServices
             this.invesmentEntityRepository = invesmentEntityRepository;
         }
 
-        public async Task<InvestmentEntity> GetInvesment(int projectId)
+        public async Task<InvestmentEntity> GetOneInvesmentAsync(int projectId)
         {
             try
             {
-                return await invesmentEntityRepository.GetInvesment(projectId);
+                return await invesmentEntityRepository.GetOneInvesmentAsync(projectId);
             }
             catch (Exception)
             {
@@ -27,16 +27,16 @@ namespace SmartSolution.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<IEnumerable<InvestmentEntity>> GetInvesmentEntities(int projectId)
+        public async Task<IEnumerable<InvestmentEntity>> GetByProjectIdAsync(int projectId)
         {
-            return await invesmentEntityRepository.GetInvesmentEntities(projectId);
+            return await invesmentEntityRepository.GetByProjectIdAsync(projectId);
         }
 
-        public async Task<IEnumerable<InvestmentEntity>> GetInvesmentEntity(int idSolution)
+        public async Task<IEnumerable<InvestmentEntity>> GetBySolutionIdAsync(int idSolution)
         {
             try
             {
-                return await invesmentEntityRepository.GetInvesmentEntity(idSolution);
+                return await invesmentEntityRepository.GetBySolutionIdAsync(idSolution);
             }
             catch (Exception)
             {
@@ -58,6 +58,19 @@ namespace SmartSolution.Services.Services.RepositoriesServices
                 throw;
             }
 
+        }
+
+        public async Task<IEnumerable<UniqueName>> GetUniqueNames(int solutionId)
+        {
+            try
+            {
+                return await invesmentEntityRepository.GetUniqueNames(solutionId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

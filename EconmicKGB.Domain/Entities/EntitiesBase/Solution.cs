@@ -9,6 +9,7 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
         {
             Projects = new HashSet<Project>();
             Economics = new HashSet<Economic>();
+            FlujoDeCajas = new HashSet<FlujoDeCaja>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Economic> Economics { get; set; }
         public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<FlujoDeCaja> FlujoDeCajas { get; set; }
     }
 }

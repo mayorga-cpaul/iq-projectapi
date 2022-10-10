@@ -1,13 +1,10 @@
-﻿using AutoMapper;
+﻿
+
+using AutoMapper;
 using SmartSolution.Application.Dtos.EntitiesDto;
 using SmartSolution.Application.Interfaces.IRepositories;
 using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Services.Interface.IRepositoriesServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartSolution.Application.Repositories.EconomicRepositories
 {

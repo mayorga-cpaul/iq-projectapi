@@ -25,8 +25,10 @@ namespace SmartSolution.Application.Mappers.MappingDto
             CreateMap<UserDto, User>();
             CreateMap<Economic, RateDto>();
             CreateMap<RateDto, Interest>();
+            CreateMap<AssetDto, Asset>();
 
             CreateMap<Annuaty, AnnuityDto>();
+            CreateMap<Asset, AssetDto>();
             CreateMap<InvesmentArea, InvesmentAreaDto>();
             CreateMap<Conversion, ConversionDto>();
             CreateMap<ProjectCost, ProjectCostDto>();

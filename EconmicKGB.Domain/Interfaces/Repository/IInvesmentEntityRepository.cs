@@ -9,20 +9,20 @@ namespace SmartSolution.Domain.Interfaces.Repository
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<IEnumerable<InvestmentEntity>> GetInvesmentEntities(int projectId);
+        Task<IEnumerable<InvestmentEntity>> GetByProjectIdAsync(int projectId);
         /// <summary>
         /// Get All the entities by SolutionId
         /// </summary>
-        /// <param name="idSolution"></param>
+        /// <param name="solutionId"></param>
         /// <returns></returns>
-        Task<IEnumerable<InvestmentEntity>> GetInvesmentEntity(Int32 idSolution);
+        Task<IEnumerable<InvestmentEntity>> GetBySolutionIdAsync(int solutionId);
 
         /// <summary>
-        /// Get All the invesment by projectId
+        /// Get one invesment by projectId
         /// </summary>
         /// <param name="projectId"></param>
         /// <returns></returns>
-        Task<InvestmentEntity> GetInvesment(Int32 projectId);
+        Task<InvestmentEntity> GetOneInvesmentAsync(int projectId);
 
         /// <summary>
         /// Add one Invesment Entity to project
@@ -31,5 +31,12 @@ namespace SmartSolution.Domain.Interfaces.Repository
         /// <param name="projectId"></param>
         /// <returns></returns>
         Task<bool> SetInvesmentEntityAsync(InvestmentEntity entidadInvs);
+
+        /// <summary>
+        /// Get Uniques names of the invesment
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<UniqueName>> GetUniqueNames(int solutionId);
     }
 }
