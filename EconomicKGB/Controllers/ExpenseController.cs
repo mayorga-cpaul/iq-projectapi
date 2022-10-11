@@ -90,7 +90,7 @@ namespace SmartSolution.API.Controllers
         }
         #endregion
 
-        [HttpPost("setExpenseAsync")]
+        [HttpPost]
         public async Task<ActionResult> SetExpensesAsync(ProjectExpenseDto gastoProjects)
         {
             try

@@ -1,4 +1,5 @@
-﻿using SmartSolution.Domain.EconomicContext;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartSolution.Domain.EconomicContext;
 using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Domain.Interfaces.Repository;
 
@@ -16,13 +17,14 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                var data = await GetAsync(projectId);
-                if (data is null)
+                bool exist = await repository.Projects.AnyAsync(e => e.Id == projectId);
+
+                if (!exist)
                 {
-                    throw new ArgumentNullException(nameof(data));
+                    throw new Exception($"El proyecto con Id: {projectId} no existe");
                 }
 
-                return await Task.FromResult(repository.CostProjects.Where(e => e.ProjectId == data.Id));
+                return repository.ProjectCosts.Where(e => e.ProjectId == projectId);
             }
             catch (Exception)
             {
@@ -36,7 +38,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 _ = (repository.Projects.Any(e => e.Id == costProjects.ProjectId) is false)
                 ? throw new Exception("El proyecto que desea asignarle al costo no existe")
-                : repository.CostProjects.Add(costProjects); await repository.SaveChangesAsync(); return true; 
+                : repository.ProjectCosts.Add(costProjects); await repository.SaveChangesAsync(); return true; 
             }
             catch (Exception)
             {

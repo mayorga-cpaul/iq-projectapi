@@ -37,6 +37,9 @@ namespace SmartSolution.Infraestructure.Migrations
                     b.Property<decimal>("AmountResidual")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<bool>("AñosDeDepreciaciónSegunNi")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

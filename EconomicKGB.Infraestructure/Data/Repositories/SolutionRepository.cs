@@ -17,7 +17,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                if (!await repository.Usuarios.AnyAsync(e => e.Id == userId))
+                if (!await repository.Users.AnyAsync(e => e.Id == userId))
                     throw new Exception("El usuario no existe");
 
                 return await Task.FromResult(repository.Solutions.Where(e => e.UserId == userId));
@@ -36,7 +36,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                 {
                     throw new ArgumentNullException("El email no puede ser null");
                 }
-                var user = await repository.Usuarios.
+                var user = await repository.Users.
                     Where(u => u.Email == email).FirstOrDefaultAsync();
 
                 if (user == null)
@@ -52,7 +52,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             }
         }
 
-        public async Task<Solution> GetSolutionByIdAsync(Int32 id)
+        public async Task<Solution> GetSolutionByIdAsync(int id)
         {
             try
             {

@@ -7,24 +7,25 @@ namespace SmartSolution.Domain.EconomicContext
     {
         public EconomicKGBContext()
         {
+
         }
 
-        public EconomicKGBContext(DbContextOptions options)
+        public EconomicKGBContext(DbContextOptions<EconomicKGBContext> options)
             : base(options)
         {
 
         }
 
-        public virtual DbSet<InvesmentArea> AreaInversions { get; set; } = null!;
+        public virtual DbSet<InvesmentArea> InvesmentArea { get; set; } = null!;
         public virtual DbSet<Conversion> Conversions { get; set; } = null!;
-        public virtual DbSet<ProjectCost> CostProjects { get; set; } = null!;
+        public virtual DbSet<ProjectCost> ProjectCosts { get; set; } = null!;
         public virtual DbSet<Economic> EconomicClasses { get; set; } = null!;
-        public virtual DbSet<InvestmentEntity> EntidadInvs { get; set; } = null!;
-        public virtual DbSet<ProjectExpense> GastoProjects { get; set; } = null!;
-        public virtual DbSet<ProjectEntry> IngresoProyectos { get; set; } = null!;
+        public virtual DbSet<InvestmentEntity> InvesmentEntity { get; set; } = null!;
+        public virtual DbSet<ProjectExpense> ProjectExpenses { get; set; } = null!;
+        public virtual DbSet<ProjectEntry> ProjectEntries { get; set; } = null!;
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Solution> Solutions { get; set; } = null!;
-        public virtual DbSet<User> Usuarios { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Asset> Assets { get; set; } = null!;
         public virtual DbSet<FlujoDeCaja> FlujoDeCajas { get; set; } = null!;
         public virtual DbSet<FlujoDeCajaDetalle> FlujoDeCajaDetalles { get; set; } = null!;
@@ -146,7 +147,7 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.Property(e => e.Code);
                 entity.Property(e => e.Status);
                 entity.Property(e => e.IsActive);
-
+                entity.Property(e => e.AñosDeDepreciaciónSegunNi);
                 entity.HasOne(d => d.Project)
                 .WithMany(p => p.Assets)
                 .HasForeignKey(d => d.ProjectId);

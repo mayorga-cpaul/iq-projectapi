@@ -98,7 +98,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                bool exist = await repository.Usuarios.
+                bool exist = await repository.Users.
                     AnyAsync(e => e.Email.Equals(email));
 
                 return exist;
@@ -117,7 +117,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                 if (!await ExistEmailAsync(email))
                     throw new Exception($"No existe un usuario con {email} en nuestra base de datos");
 
-                var data = await repository.Usuarios.FirstOrDefaultAsync(p => p.Email.Equals(email));
+                var data = await repository.Users.FirstOrDefaultAsync(p => p.Email.Equals(email));
 
                 if (data is null)
                 {
@@ -141,7 +141,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                     throw new ArgumentNullException(nameof(name));
                 }
 
-                var data = (await repository.Usuarios.FirstOrDefaultAsync(p => p.Name.Equals(name)));
+                var data = (await repository.Users.FirstOrDefaultAsync(p => p.Name.Equals(name)));
 
                 if (data is null)
                 {
@@ -161,7 +161,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                bool data = await repository.Usuarios.AnyAsync(e => e.Id == userId);
+                bool data = await repository.Users.AnyAsync(e => e.Id == userId);
                 
                 if (!data)
                 {

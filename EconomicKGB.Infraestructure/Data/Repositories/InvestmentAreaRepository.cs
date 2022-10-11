@@ -17,11 +17,11 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                bool exist = await repository.AreaInversions.AnyAsync(e => e.ProjectId == projectId);
+                bool exist = await repository.Projects.AnyAsync(e => e.Id == projectId);
 
                 if (exist)
                 {
-                    return repository.AreaInversions.Where(e => e.ProjectId == projectId);
+                    return repository.InvesmentArea.Where(e => e.ProjectId == projectId);
                 }
                 else
                 {
@@ -41,7 +41,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 _ = (repository.Projects.Any(e => e.Id == invesmentArea.ProjectId) is false)
                 ? throw new Exception("El proyecto que desea asignarle al costo no existe")
-                : repository.AreaInversions.Add(invesmentArea); await repository.SaveChangesAsync(); return true;
+                : repository.InvesmentArea.Add(invesmentArea); await repository.SaveChangesAsync(); return true;
             }
             catch (Exception)
             {

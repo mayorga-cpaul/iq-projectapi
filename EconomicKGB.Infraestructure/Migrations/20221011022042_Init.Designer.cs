@@ -12,7 +12,7 @@ using SmartSolution.Domain.EconomicContext;
 namespace SmartSolution.Infraestructure.Migrations
 {
     [DbContext(typeof(EconomicKGBContext))]
-    [Migration("20221010210555_Init")]
+    [Migration("20221011022042_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace SmartSolution.Infraestructure.Migrations
 
                     b.Property<decimal>("AmountResidual")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("AñosDeDepreciaciónSegunNi")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Code")
                         .IsRequired()

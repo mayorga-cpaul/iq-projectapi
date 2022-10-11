@@ -194,6 +194,7 @@ namespace SmartSolution.Infraestructure.Migrations
                     Terms = table.Column<int>(type: "int", nullable: false),
                     DepreciationRate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AñosDeDepreciaciónSegunNi = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },

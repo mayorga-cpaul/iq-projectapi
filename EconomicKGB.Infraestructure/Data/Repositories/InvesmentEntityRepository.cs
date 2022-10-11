@@ -21,12 +21,12 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                bool exist = await repository.EntidadInvs
-                    .AnyAsync(e => e.ProjectId == projectId);
+                bool exist = await repository.Projects
+                    .AnyAsync(e => e.Id == projectId);
 
                 if (exist)
                 {
-                    var invesment = (await repository.EntidadInvs.
+                    var invesment = (await repository.InvesmentEntity.
                         FirstOrDefaultAsync(e => e.ProjectId == projectId));
                     if (invesment is null)
                         throw new Exception($"Error, entidades no asignadas al proyecto con ID {projectId}");
@@ -51,7 +51,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
 
                 if (exist)
                 {
-                    return repository.EntidadInvs.Where(e => e.ProjectId == projectId);
+                    return repository.InvesmentEntity.Where(e => e.ProjectId == projectId);
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 _ = (repository.Projects.Any(e => e.Id == invesmentEnt.ProjectId) is false)
                 ? throw new Exception("El proyecto que desea asignarle al costo no existe")
-                : repository.EntidadInvs.Add(invesmentEnt); await repository.SaveChangesAsync(); return true;
+                : repository.InvesmentEntity.Add(invesmentEnt); await repository.SaveChangesAsync(); return true;
             }
             catch (Exception)
             {

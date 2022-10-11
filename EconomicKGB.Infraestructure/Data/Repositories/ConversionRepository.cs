@@ -21,7 +21,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                 {
                     throw new ArgumentNullException("El email no puede ser null");
                 }
-                var user = await repository.Usuarios.
+                var user = await repository.Users.
                     Where(u => u.Email == email).FirstOrDefaultAsync();
 
                 if (user == null)

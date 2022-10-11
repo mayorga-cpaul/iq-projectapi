@@ -17,12 +17,14 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                var data = await GetAsync(projectId);
-                if (data is null)
+                bool exist = await repository.Projects.AnyAsync(e => e.Id == projectId);
+
+                if (!exist)
                 {
-                    throw new ArgumentNullException(nameof(data));
-                }
-                return await Task.FromResult(repository.GastoProjects.Where(e => e.ProjectId == projectId));
+                    throw new Exception($"El proyecto con Id: {projectId} no existe");
+                }                
+
+                return repository.ProjectExpenses.Where(e => e.ProjectId == projectId);
             }
             catch (Exception)
             {
@@ -36,7 +38,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 _ = (repository.Projects.Any(e => e.Id == projectExpense.ProjectId) is false)
                 ? throw new Exception("El proyecto que desea asignarle al costo no existe")
-                : repository.GastoProjects.Add(projectExpense); await repository.SaveChangesAsync(); return true;
+                : repository.ProjectExpenses.Add(projectExpense); await repository.SaveChangesAsync(); return true;
             }
             catch (Exception)
             {

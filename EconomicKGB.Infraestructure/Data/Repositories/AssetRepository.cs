@@ -1,4 +1,5 @@
-﻿using SmartSolution.Domain.EconomicContext;
+﻿using Microsoft.EntityFrameworkCore;
+using SmartSolution.Domain.EconomicContext;
 using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Domain.Interfaces.Repository;
 
@@ -14,14 +15,23 @@ namespace SmartSolution.Infraestructure.Data.Repositories
 
         public async Task<IEnumerable<Asset>> GetAllAssetAsync(int projectId)
         {
-            var data = await GetAsync(projectId);
-
-            if (data is null)
+            try
             {
-                throw new ArgumentNullException(nameof(data));
+                bool exist = await repository.Projects.AnyAsync(e => e.Id == projectId);
+
+                if (!exist)
+                {
+                    throw new Exception($"El proyecto con Id: {projectId} no existe");
+                }
+
+                return repository.Assets.Where(e => e.ProjectId == projectId);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
-            return repository.Assets.Where(e => e.ProjectId == data.Id);
         }
 
         public async Task<bool> SetAssetAsync(Asset asset)
@@ -29,8 +39,8 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             try
             {
                 _ = (repository.Projects.Any(e => e.Id == asset.ProjectId) is false)
-             ? throw new Exception("El proyecto que desea asignarle al costo no existe")
-             : repository.Assets.Add(asset); await repository.SaveChangesAsync(); return true;
+                     ? throw new Exception("El proyecto que desea asignarle al costo no existe")
+                     : repository.Assets.Add(asset); await repository.SaveChangesAsync(); return true;
             }
             catch (Exception)
             {
