@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SmartSolution.Domain.Entities.EntitiesBase
+namespace SmartSolution.Application.Dtos.EntitiesDto
 {
-    public partial class FlujoDeCaja
+    public class FlujoDeCajaDto
     {
         public int Id { get; set; }
         public decimal PresentValue { get; set; }
@@ -12,7 +15,5 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
         public decimal Duracion { get; set; }
         public int Periodo { get; set; }
         public int IdSolution { get; set; }
-
-        public virtual Solution IdSolutionNavigation { get; set; } = null!;
     }
 }

@@ -31,7 +31,7 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("findbyuseremail/{email}")]
+        [Route("findByUseremail")]
         public async Task<ActionResult<EconomicDto>> FindByUserEmailEconomicAsync(string email)
         {
             try
@@ -49,12 +49,12 @@ namespace SmartSolution.API.Controllers
         
 
         [HttpGet]
-        [Route("interest/{userId}")]
-        public async Task<ActionResult<RateDto>> GetInteresAsync(int userId)
+        [Route("interes/{solutionId}")]
+        public async Task<ActionResult<RateDto>> GetInteresAsync(Int32 solutionId)
         {
             try
             {
-                var interest = (await repository.GetInterestAsync(userId));
+                var interest = (await repository.GetInterestAsync(solutionId));
 
                 return Ok(interest);
             }
@@ -66,12 +66,12 @@ namespace SmartSolution.API.Controllers
         }
         
         [HttpGet]
-        [Route("annuity/{userId}")]
-        public async Task<ActionResult<AnnuityDto>> GetAnualidadesAsync(Int32 userId)
+        [Route("anualidad/{solutionId}")]
+        public async Task<ActionResult<AnnuityDto>> GetAnualidadesAsync(Int32 solutionId)
         {
             try
             {
-                var annuatyies = (await repository.GetAnnuitiesAsync(userId));
+                var annuatyies = (await repository.GetAnnuitiesAsync(solutionId));
 
                 return Ok(annuatyies);
             }
@@ -83,12 +83,12 @@ namespace SmartSolution.API.Controllers
         }
         
         [HttpGet]
-        [Route("{userId}")]
-        public async Task<ActionResult<EconomicDto>> GetPureEconomicAsync(Int32 userId)
+        [Route("{solutionId}")]
+        public async Task<ActionResult<EconomicDto>> GetPureEconomicAsync(Int32 solutionId)
         {
             try
             {
-                var items = (await repository.GetPureEconomicsAsync(userId));
+                var items = (await repository.GetEconomicsBySolutionAsync(solutionId));
 
                 return Ok(items);
             }
@@ -98,25 +98,26 @@ namespace SmartSolution.API.Controllers
             }
 
         }
-        
-        [HttpPost]
-        [Route("flow/{economics}")]
-        public async Task<ActionResult<EconomicDto>> CreateCashFlowsAsync(List<EconomicDto> economics, Int32 nper)
-        {
-            try
-            {
-                await repository.CreateCashFlowAsync(economics, nper);
+        //TODO: Quite el createFlow de aqui 
 
-                return Ok("Created");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //[Route("flow/{economics}")]
+        //public async Task<ActionResult<EconomicDto>> CreateCashFlowsAsync(List<EconomicDto> economics, Int32 nper)
+        //{
+        //    try
+        //    {
+        //        await repository.CreateCashFlowAsync(economics, nper);
+
+        //        return Ok("Created");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         
         [HttpPost]
-        [Route("create/{economic}")]
+        //[Route("create/{economic}")]
         public async Task<ActionResult<EconomicDto>> CreateEconomicAsync(EconomicDto economicDto)
         {
             try
@@ -132,18 +133,19 @@ namespace SmartSolution.API.Controllers
         }
         
         [HttpPatch]
-        public async Task<ActionResult> UpdateEconomicAsync(int id, EconomicDto economicDto)
+        [Route("{Id}")]
+        public async Task<ActionResult> UpdateEconomicAsync(Int32 Id, EconomicDto economicDto)
         {
             try
             {
-                var existingEconomic = await repository.GetAsync(id);
+                var existingEconomic = await repository.GetAsync(Id);
 
                 if (existingEconomic == null)
                 {
                     return NotFound();
                 }
 
-                bool result = await repository.UpdateAsync(id, economicDto);
+                bool result = await repository.UpdateAsync(Id, economicDto);
 
                 return Ok(result);
             }
@@ -153,9 +155,8 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("delete/{Id}")]
-        public async Task<ActionResult> DeleteEconomicAsync(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEconomicAsync(Int32 id)
         {
             try
             {

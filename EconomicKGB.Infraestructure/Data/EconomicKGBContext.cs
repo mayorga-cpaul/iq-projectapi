@@ -47,7 +47,7 @@ namespace SmartSolution.Domain.EconomicContext
 
             modelBuilder.Entity<FlujoDeCajaDetalle>(entity =>
             {
-                entity.HasNoKey();
+                //entity.HasNoKey();
 
                 entity.ToTable("FlujoDeCajaDetalle");
 
@@ -315,9 +315,9 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.Periodo).HasColumnType("decimal(18, 3)");
 
-                entity.HasOne(d => d.Solution)
+                entity.HasOne(d => d.IdSolutionNavigation)
                     .WithMany(p => p.FlujoDeCajas)
-                    .HasForeignKey(d => d.SolutionId)
+                    .HasForeignKey(d => d.IdSolution)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FlujoDeCaIdSol_03F0984C");
             });

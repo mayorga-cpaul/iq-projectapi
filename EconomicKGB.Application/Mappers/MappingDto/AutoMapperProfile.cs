@@ -24,7 +24,6 @@ namespace SmartSolution.Application.Mappers.MappingDto
             CreateMap<SolutionDto, Solution>();
             CreateMap<UserDto, User>();
             CreateMap<Economic, RateDto>();
-            CreateMap<RateDto, Interest>();
             CreateMap<AssetDto, Asset>();
 
             CreateMap<Annuaty, AnnuityDto>();
@@ -42,7 +41,12 @@ namespace SmartSolution.Application.Mappers.MappingDto
             CreateMap<Solution, SolutionDto>();
             CreateMap<User, UserDto>();
             CreateMap<RateDto, Economic>();
-            CreateMap<Interest, RateDto>();
+
+            //Mapeos de flujo de caja
+            CreateMap<FlujoDeCaja, FlujoDeCajaDto>();
+            CreateMap<FlujoDeCajaDto, FlujoDeCaja>();
+            CreateMap<FlujoDeCajaDetalle, FlujoDeCajaDetalleDto>();
+            CreateMap<FlujoDeCajaDetalleDto, FlujoDeCajaDetalle>();
         }
     }
 }

@@ -23,19 +23,19 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
 
         }
 
-        public async Task<int> CreateCashFlowsAsync(List<Economic> economicClasses, int nper)
-        {
-            try
-            {
-                return await economicRepository.CreateCashFlowAsync(economicClasses, nper);
-            }
-            catch (Exception)
-            {
+        //public async Task<int> CreateCashFlowsAsync(List<Economic> economicClasses, int nper)
+        //{
+        //    try
+        //    {
+        //        return await economicRepository.CreateCashFlowAsync(economicClasses, nper);
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
+        //        throw;
+        //    }
 
-        }
+        //}
 
         public async Task<IEnumerable<Economic>> FindByUserEmailAsync(string email)
         {
@@ -49,6 +49,45 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
                 throw;
             }
 
+        }
+
+        public async Task<IEnumerable<Economic>> GetAnualidadesAsync(int solutionId)
+        {
+            try
+            {
+                return await economicRepository.GetAnualidadesAsync(solutionId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Economic>> GetEconomicBySolutionAsync(int solutionId)
+        {
+            try
+            {
+                return await economicRepository.GetEconomicBySolutionAsync(solutionId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Economic>> GetInteresAsync(int solutionId)
+        {
+            try
+            {
+                return await economicRepository.GetInteresAsync(solutionId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

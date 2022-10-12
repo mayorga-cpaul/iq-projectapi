@@ -7,6 +7,7 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
     {
         public int IdFlujoDeCaja { get; set; }
         public int IdEconomic { get; set; }
+        public int Id { get; set; }
 
         public virtual Economic IdEconomicNavigation { get; set; } = null!;
         public virtual FlujoDeCaja IdFlujoDeCajaNavigation { get; set; } = null!;

@@ -24,6 +24,8 @@ namespace SmartSolution.API.IOC
             builder.Services.AddScoped<IInvesmentEntityApplication, InvesmentEntityApplication>();
             builder.Services.AddScoped<IEntryApplication, EntryApplication>();
             builder.Services.AddScoped<IAssetApplication, AssetApplication>();
+            builder.Services.AddScoped<IFlujoCajaApp, FlujoCajaApplication>();
+            builder.Services.AddScoped<IFlujoCajaDetalleApp, FlujoCajaDetalleApplication>();
 
             builder.Services.AddScoped<IConversionServices, ConversionServices>();
             builder.Services.AddScoped<IEconomicServices, EconomicServices>();
@@ -36,6 +38,8 @@ namespace SmartSolution.API.IOC
             builder.Services.AddScoped<IInvesmentEntityServices, InvesmentEntityServices>();
             builder.Services.AddScoped<IEntryService, EntryService>();
             builder.Services.AddScoped<IAssetServices, AssetServices>();
+            builder.Services.AddScoped<IFlujoCajaServices, FlujoCajaServices>();
+            builder.Services.AddScoped<IFlujoCajaDetalleServices, FlujoCajaDetalleServices>();
 
             builder.Services.AddScoped<IConversionRepository, ConversionRepository>();
             builder.Services.AddScoped<IEconomicRepository, EconomicRepository>();
@@ -48,6 +52,8 @@ namespace SmartSolution.API.IOC
             builder.Services.AddScoped<IInvesmentEntityRepository, InvesmentEntityRepository>();
             builder.Services.AddScoped<IEntryRepository, EntryRepository>();
             builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+            builder.Services.AddScoped<IFlujoDeCajaRepository, FlujoCajaRepository>();
+            builder.Services.AddScoped<IFlujoCajaDetalleRepository, FlujoCajaDetalleRepository>();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SmartSolution.Application.Interfaces.IRepositories
         Task<IEnumerable<EconomicDto>> FindByUserEmailAsync(string email);
         Task<IEnumerable<RateDto>> GetInterestAsync(Int32 email);
         Task<IEnumerable<AnnuityDto>> GetAnnuitiesAsync(Int32 email);
-        Task<IEnumerable<EconomicDto>> GetPureEconomicsAsync(Int32 email);
-        Task<int> CreateCashFlowAsync(List<EconomicDto> economicClasses, int nper);
+        Task<IEnumerable<EconomicDto>> GetEconomicsBySolutionAsync(Int32 solution);
+        //Task<int> CreateCashFlowAsync(List<EconomicDto> economicClasses, int nper);
     }
 }

@@ -94,7 +94,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             try
             {
                 var conversion = mapper.Map<Conversion>(entity);
-                conversion.Id = id;
+                //conversion.Id = id;
                 return await conversionServices.UpdateAsync(conversion);
             }
             catch (Exception)
