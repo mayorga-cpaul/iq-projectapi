@@ -97,12 +97,28 @@ namespace SmartSolution.API.Controllers
         }
 
         [HttpGet]
-        [Route("getByIdAsync")]
+        [Route("getOneInvesmentByProjectId")]
         public async Task<ActionResult> GetOneInvesmentAsync(int id)
         {
             try
             {
                 return Ok(await repository.GetOneInvesmentAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getByIdAsync")]
+        public async Task<ActionResult> GetByIdAsync(int id)
+        {
+            try
+            {
+                var projectDto = (await repository.GetAsync(id));
+
+                return Ok(projectDto);
             }
             catch (Exception ex)
             {
