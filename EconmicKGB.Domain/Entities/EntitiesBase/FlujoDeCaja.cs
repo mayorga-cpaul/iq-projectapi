@@ -11,7 +11,7 @@ namespace SmartSolution.Domain.Entities.EntitiesBase
         public decimal TasaDeInteres { get; set; }
         public decimal Duracion { get; set; }
         public int Periodo { get; set; }
-        public int IdSolution { get; set; }
+        public int SolutionId { get; set; }
 
         public virtual Solution IdSolutionNavigation { get; set; } = null!;
     }

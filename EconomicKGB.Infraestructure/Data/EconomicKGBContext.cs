@@ -313,11 +313,12 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.TasaDeInteres).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.Periodo).HasColumnType("decimal(18, 3)");
+                //entity.Property(e => e.Periodo).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.Periodo);
 
                 entity.HasOne(d => d.IdSolutionNavigation)
                     .WithMany(p => p.FlujoDeCajas)
-                    .HasForeignKey(d => d.IdSolution)
+                    .HasForeignKey(d => d.SolutionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_FlujoDeCaIdSol_03F0984C");
             });

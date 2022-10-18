@@ -29,7 +29,8 @@ namespace SmartSolution.API.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        //[HttpPatch("{id}")]
+        [HttpPatch]
         public async Task<ActionResult> UpdateAsync(Int32 id, FlujoDeCajaDto flujoDeCaja)
         {
             try

@@ -20,7 +20,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                return await Task.FromResult(repository.FlujoDeCajas.Where(e => e.IdSolution == solutionID));
+                return await Task.FromResult(repository.FlujoDeCajas.Where(e => e.SolutionId == solutionID));
             }
             catch (Exception)
             {
