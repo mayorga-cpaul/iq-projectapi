@@ -22,5 +22,6 @@ namespace SmartSolution.Domain.Services.Interface.IRepositoriesServices
         /// <param name="solutionId"></param>
         /// <returns></returns>
         Task<IEnumerable<Project>> GetProjectsBySolAsync(Int32 solutionId);
+        Task<bool> RemoveProject(int projectId);
     }
 }

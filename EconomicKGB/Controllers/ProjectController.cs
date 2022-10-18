@@ -69,7 +69,7 @@ namespace SmartSolution.API.Controllers
                     return NotFound();
                 }
 
-                int result = await repository.DeleteAsync(id);
+                var result = await repository.RemoveProject(id);
 
                 return Ok(result);
             }

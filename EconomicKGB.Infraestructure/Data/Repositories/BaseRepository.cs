@@ -2,7 +2,6 @@
 using SmartSolution.Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using static Dapper.SqlMapper;
 
 namespace SmartSolution.Infraestructure.Data.Repositories
 {
@@ -82,6 +81,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             {
                 _repository.Entry(entity).State = EntityState.Modified;
                 _repository.Set<TEntity>().Update(entity);
+                _repository.Entry<TEntity>(entity).State = EntityState.Detached;
                 await _repository.SaveChangesAsync();
                 return true;
             }

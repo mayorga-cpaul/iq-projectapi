@@ -3,6 +3,8 @@ using SmartSolution.Domain.Entities.EntitiesBase;
 using SmartSolution.Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Formats.Asn1;
+using Dapper;
+using System.Data;
 
 namespace SmartSolution.Infraestructure.Data.Repositories
 {
@@ -32,20 +34,22 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             return await repository.Projects.MaxAsync(e => e.Id);
         }
 
+        public async Task<bool> RemoveProject(int projectId)
+        {
+
+            using (var connection = repository.Database.GetDbConnection())
+            {
+                await connection.QueryAsync("RemoveProject", new { projectId = projectId },
+                commandType: CommandType.StoredProcedure);
+            }
+
+            return true;
+        }
+
         public async Task<bool> SetProjectToSolution(Project project)
         {
             try
             {
-                //if (repository.Solutions.Any(e => e.Id == project.SolutionId))
-                //{
-                //    await repository.Projects.AddAsync(project);
-                //    await repository.SaveChangesAsync();
-                //    return true;
-                //}
-                //else
-                //    throw new Exception("El proyecto que desea asignarle al costo no existe");
-
-
                 _ = (repository.Solutions.Any(e => e.Id == project.SolutionId) is false)
               ? throw new Exception("El proyecto que desea asignarle al costo no existe")
               : repository.Projects.Add(project); await repository.SaveChangesAsync(); return true;

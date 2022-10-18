@@ -31,6 +31,11 @@ namespace SmartSolution.Domain.Services.Services.RepositoriesServices
             return await projectRepository.LastCreated();
         }
 
+        public async Task<bool> RemoveProject(int projectId)
+        {
+            return await projectRepository.RemoveProject(projectId);
+        }
+
         public async Task<bool> SetProjectToSolutionAsync(Project project)
         {
             return await projectRepository.SetProjectToSolution(project);

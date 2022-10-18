@@ -35,8 +35,8 @@ namespace SmartSolution.Infraestructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    TasaOriginal = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TasaActual = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TasaOriginal = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TasaActual = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     TipoOriginal = table.Column<int>(type: "int", nullable: false),
                     TipoActual = table.Column<int>(type: "int", nullable: false),
                     FrecCapOriginal = table.Column<int>(type: "int", nullable: false),
@@ -83,10 +83,10 @@ namespace SmartSolution.Infraestructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SolutionId = table.Column<int>(type: "int", nullable: false),
-                    PresentValue = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    FutureValue = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    TasaInteres = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    NumPeriodos = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    PresentValue = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    FutureValue = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TasaInteres = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    NumPeriodos = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PagoAnual = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     TipoAnualidad = table.Column<int>(type: "int", nullable: true),
@@ -115,19 +115,19 @@ namespace SmartSolution.Infraestructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PresentValue = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    FutureValue = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    TasaDeInteres = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    Duracion = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    PresentValue = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    FutureValue = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    TasaDeInteres = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Duracion = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     Periodo = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
-                    SolutionId = table.Column<int>(type: "int", nullable: false)
+                    IdSolution = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FlujoDeCaja", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FlujoDeCaIdSol_03F0984C",
-                        column: x => x.SolutionId,
+                        column: x => x.IdSolution,
                         principalTable: "Solution",
                         principalColumn: "Id");
                 });
@@ -144,10 +144,10 @@ namespace SmartSolution.Infraestructure.Migrations
                     Period = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     WithFinancing = table.Column<bool>(type: "bit", nullable: false),
-                    TMAR = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    TMAR = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TMARMixta = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Contribution = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
+                    TMARMixta = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Contribution = table.Column<decimal>(type: "decimal(18,4)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,11 +163,14 @@ namespace SmartSolution.Infraestructure.Migrations
                 name: "FlujoDeCajaDetalle",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     IdFlujoDeCaja = table.Column<int>(type: "int", nullable: false),
                     IdEconomic = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_FlujoDeCajaDetalle", x => x.Id);
                     table.ForeignKey(
                         name: "FK_FlujoDeCaIdEco_05D8E0BE",
                         column: x => x.IdEconomic,
@@ -196,7 +199,7 @@ namespace SmartSolution.Infraestructure.Migrations
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AñosDeDepreciaciónSegunNi = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsDepreciable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -218,7 +221,7 @@ namespace SmartSolution.Infraestructure.Migrations
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Start = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     IsDiferida = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "(CONVERT([bit],(0)))"),
                     RecoveryCt = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -290,8 +293,8 @@ namespace SmartSolution.Infraestructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
-                    Entry = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Growth = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
+                    Entry = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Growth = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     TypeGrowth = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Start = table.Column<int>(type: "int", nullable: false),
                     End = table.Column<int>(type: "int", nullable: false),
@@ -314,8 +317,8 @@ namespace SmartSolution.Infraestructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
-                    Expense = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Growth = table.Column<decimal>(type: "decimal(18,0)", nullable: true),
+                    Expense = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Growth = table.Column<decimal>(type: "decimal(18,4)", nullable: true),
                     TypeGrowth = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Start = table.Column<int>(type: "int", nullable: false),
                     End = table.Column<int>(type: "int", nullable: false),
@@ -347,9 +350,9 @@ namespace SmartSolution.Infraestructure.Migrations
                 column: "SolutionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FlujoDeCaja_SolutionId",
+                name: "IX_FlujoDeCaja_IdSolution",
                 table: "FlujoDeCaja",
-                column: "SolutionId");
+                column: "IdSolution");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FlujoDeCajaDetalle_IdEconomic",

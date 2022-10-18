@@ -72,7 +72,7 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.HasIndex(e => e.ProjectId, "IX_InvesmentArea_ProjectId");
                 entity.Property(e => e.Name).HasMaxLength(100);
                 entity.Property(e => e.Start);
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
                 entity.Property(e => e.IsDiferida)
                     .IsRequired()
                     .HasDefaultValueSql("(CONVERT([bit],(0)))");
@@ -92,9 +92,9 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.HasIndex(e => e.UserId, "IX_Conversion_UserId");
 
-                entity.Property(e => e.TasaActual).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.TasaActual).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.TasaOriginal).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.TasaOriginal).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.TipoOriginal);
                 entity.Property(e => e.TipoActual);
@@ -146,7 +146,7 @@ namespace SmartSolution.Domain.EconomicContext
                 entity.Property(e => e.DepreciationRate);
                 entity.Property(e => e.Code);
                 entity.Property(e => e.Status);
-                entity.Property(e => e.IsActive);
+                entity.Property(e => e.IsDepreciable);
                 entity.Property(e => e.AñosDeDepreciaciónSegunNi);
                 entity.HasOne(d => d.Project)
                 .WithMany(p => p.Assets)
@@ -160,13 +160,13 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.HasIndex(e => e.SolutionId, "IX_Economic_SolutionId");
 
-                entity.Property(e => e.PresentValue).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.PresentValue).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.FutureValue).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.FutureValue).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.TasaInteres).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.TasaInteres).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.NumPeriodos).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.NumPeriodos).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Discriminator);
 
@@ -232,9 +232,9 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.HasIndex(e => e.ProjectId, "IX_ProjectExpense_ProjectId");
 
-                entity.Property(e => e.Growth).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Growth).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.Expense).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Expense).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.TypeGrowth).HasMaxLength(100);
                 
@@ -257,9 +257,9 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.HasIndex(e => e.ProjectId, "IX_ProjecEntry_ProjectId");
 
-                entity.Property(e => e.Growth).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Growth).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.Entry).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.Entry).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.TypeGrowth).HasMaxLength(100);
                 entity.Property(e => e.Start);
@@ -289,10 +289,10 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.CreationDate);
                 entity.Property(e => e.Duration);
-                entity.Property(e => e.TMAR).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.TMAR).HasColumnType("decimal(18, 4)");
                 entity.Property(e => e.WithFinancing);
-                entity.Property(e => e.TMARMixta).HasColumnType("decimal(18, 0)");
-                entity.Property(e => e.Contribution).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.TMARMixta).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.Contribution).HasColumnType("decimal(18, 4)");
                 
                 entity.HasOne(d => d.Solution)
                     .WithMany(p => p.Projects)
@@ -305,13 +305,13 @@ namespace SmartSolution.Domain.EconomicContext
             {
                 entity.ToTable("FlujoDeCaja");
 
-                entity.Property(e => e.Duracion).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.Duracion).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.FutureValue).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.FutureValue).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.PresentValue).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.PresentValue).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.TasaDeInteres).HasColumnType("decimal(18, 3)");
+                entity.Property(e => e.TasaDeInteres).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Periodo).HasColumnType("decimal(18, 3)");
 
@@ -364,23 +364,6 @@ namespace SmartSolution.Domain.EconomicContext
             });
 
             OnModelCreatingPartial(modelBuilder);
-        }
-
-        public override int SaveChanges()
-        {
-            foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataApi") != null))
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Property("DataApi").CurrentValue = DateTime.Now;
-                }
-
-                if (entry.State == EntityState.Modified)
-                {
-                    entry.Property("DataApi").IsModified = false;
-                }
-            }
-            return base.SaveChanges();
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

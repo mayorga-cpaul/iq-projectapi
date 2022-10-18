@@ -23,5 +23,7 @@ namespace SmartSolution.Domain.Interfaces.Repository
         /// <param name="solutionId"></param>
         /// <returns></returns>
         Task<int> LastCreated();
+
+        Task<bool> RemoveProject(int projectId);
     }
 }

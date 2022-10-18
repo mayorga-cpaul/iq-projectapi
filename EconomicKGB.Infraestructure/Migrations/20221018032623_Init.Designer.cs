@@ -12,7 +12,7 @@ using SmartSolution.Domain.EconomicContext;
 namespace SmartSolution.Infraestructure.Migrations
 {
     [DbContext(typeof(EconomicKGBContext))]
-    [Migration("20221011022042_Init")]
+    [Migration("20221018032623_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,7 +54,7 @@ namespace SmartSolution.Infraestructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsDepreciable")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -99,10 +99,10 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TasaActual")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TasaOriginal")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("TipoActual")
                         .HasColumnType("int");
@@ -139,13 +139,13 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("FutureValue")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal?>("FuturoGradiente")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("NumPeriodos")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal?>("PagoAnual")
                         .HasColumnType("decimal(18,2)");
@@ -157,13 +157,13 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("PresentValue")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("SolutionId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TasaInteres")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int?>("TipoAnualidad")
                         .HasColumnType("int");
@@ -190,37 +190,45 @@ namespace SmartSolution.Infraestructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Duracion")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("FutureValue")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<int>("IdSolution")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Periodo")
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<decimal>("PresentValue")
-                        .HasColumnType("decimal(18,3)");
-
-                    b.Property<int>("SolutionId")
-                        .HasColumnType("int");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TasaDeInteres")
-                        .HasColumnType("decimal(18,3)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SolutionId");
+                    b.HasIndex("IdSolution");
 
                     b.ToTable("FlujoDeCaja", (string)null);
                 });
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCajaDetalle", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<int>("IdEconomic")
                         .HasColumnType("int");
 
                     b.Property<int>("IdFlujoDeCaja")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("IdEconomic");
 
@@ -238,7 +246,7 @@ namespace SmartSolution.Infraestructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<bool?>("IsDiferida")
                         .IsRequired()
@@ -330,7 +338,7 @@ namespace SmartSolution.Infraestructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Contribution")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -357,10 +365,10 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TMAR")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("TMARMixta")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<bool>("WithFinancing")
                         .HasColumnType("bit");
@@ -421,13 +429,13 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Entry")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("EntryType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Growth")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -458,10 +466,10 @@ namespace SmartSolution.Infraestructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Expense")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal?>("Growth")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -591,13 +599,13 @@ namespace SmartSolution.Infraestructure.Migrations
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCaja", b =>
                 {
-                    b.HasOne("SmartSolution.Domain.Entities.EntitiesBase.Solution", "Solution")
+                    b.HasOne("SmartSolution.Domain.Entities.EntitiesBase.Solution", "IdSolutionNavigation")
                         .WithMany("FlujoDeCajas")
-                        .HasForeignKey("SolutionId")
+                        .HasForeignKey("IdSolution")
                         .IsRequired()
                         .HasConstraintName("FK_FlujoDeCaIdSol_03F0984C");
 
-                    b.Navigation("Solution");
+                    b.Navigation("IdSolutionNavigation");
                 });
 
             modelBuilder.Entity("SmartSolution.Domain.Entities.EntitiesBase.FlujoDeCajaDetalle", b =>

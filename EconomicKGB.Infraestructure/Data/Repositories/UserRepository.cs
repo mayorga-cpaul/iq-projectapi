@@ -226,7 +226,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                     throw new ArgumentNullException(nameof(entity));
                 }
 
-                if (!await ExistEmailAsync(entity.Email) && entity.Password != null)
+                if ((await ExistEmailAsync(entity.Email)) && entity.Password != null)
                 {
                     string pass = Encoding.Default.GetString(bytes: entity.Password);
 
@@ -238,7 +238,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
                             email = entity.Email,
                             phoneNumber = entity.PhoneNumber,
                             dni = entity.Dni,
-                            password = Encoding.Default.GetString(entity.Password),
+                            password = pass,
                             estado = entity.State,
                             creacion = entity.Creation,
 

@@ -54,6 +54,11 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             return await projectServices.LastCreated();
         }
 
+        public async Task<bool> RemoveProject(int projectId)
+        {
+            return await projectServices.RemoveProject(projectId);
+        }
+
         public async Task<bool> SetProjectToSolutionAsync(ProjectDto projectDto)
         {
             var project = mapper.Map<Project>(projectDto);

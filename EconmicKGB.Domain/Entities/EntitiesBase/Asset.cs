@@ -13,7 +13,7 @@
         public string Code { get; set; }
         public bool AñosDeDepreciaciónSegunNi { get; set; }
         public string Status { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsDepreciable { get; set; }
         public virtual Project Project { get; set; } = null!;
     }
 }

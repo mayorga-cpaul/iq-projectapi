@@ -53,6 +53,22 @@ namespace SmartSolution.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getByIdAsync")]
+        public async Task<ActionResult> GetByIdAsync(int id)
+        {
+            try
+            {
+                var userDto = (await repository.GetAsync(id));
+
+                return Ok(userDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
         [HttpDelete]
         public async Task<ActionResult> DeleteProjectCostAsync(int id)
