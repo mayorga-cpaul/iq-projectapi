@@ -17,7 +17,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
             this.mapper = mapper;
         }
 
-        public async Task<Int32> CreateAsync(ConversionDto entity)
+        public async Task<int> CreateAsync(ConversionDto entity)
         {
             try
             {

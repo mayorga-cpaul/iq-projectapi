@@ -11,5 +11,6 @@
         public int End { get; set; }
         public string? CostType { get; set; }
 
+
     }
 }

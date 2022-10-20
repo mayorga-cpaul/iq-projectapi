@@ -37,7 +37,7 @@ namespace SmartSolution.Application.Repositories.EconomicRepositories
 
         public async Task<IEnumerable<AssetDto>> GetAllAssetAsync(int projectId)
         {
-            var projectentry = await assetApplication.GetAllAsync();
+            var projectentry = await assetApplication.GetAllAssetAsync(projectId);
             var projectentryDTO = mapper.Map<IEnumerable<AssetDto>>(projectentry);
 
             return projectentryDTO;

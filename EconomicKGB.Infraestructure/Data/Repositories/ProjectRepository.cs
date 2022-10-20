@@ -50,7 +50,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
         {
             try
             {
-                _ = (repository.Solutions.Any(e => e.Id == project.SolutionId) is false)
+               _ = (repository.Solutions.Any(e => e.Id == project.SolutionId) is false)
               ? throw new Exception("El proyecto que desea asignarle al costo no existe")
               : repository.Projects.Add(project); await repository.SaveChangesAsync(); return true;
 

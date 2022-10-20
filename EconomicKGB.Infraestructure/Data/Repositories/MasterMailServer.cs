@@ -58,6 +58,7 @@ namespace SmartSolution.Infraestructure.Data.Repositories
             try
             {
                 mailMessage.From = new MailAddress(senderMail);
+
                 foreach (string mail in recipientMail)
                 {
                     mailMessage.To.Add(mail);
