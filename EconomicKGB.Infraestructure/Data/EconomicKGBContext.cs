@@ -30,15 +30,15 @@ namespace SmartSolution.Domain.EconomicContext
         public virtual DbSet<FlujoDeCaja> FlujoDeCajas { get; set; } = null!;
         public virtual DbSet<FlujoDeCajaDetalle> FlujoDeCajaDetalles { get; set; } = null!;
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer($"Data source=localhost, 1433; Initial Catalog=EconomicIE; User Id=SA; Password=1234");
-//            }
-//        }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer($"Data Source=LAPTOP-P8O459K8; Initial Catalog=EconomicKGB; Integrated Security=true");
+            }
+        }
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseCollation("Modern_Spanish_CI_AS");
@@ -170,11 +170,11 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.Discriminator);
 
-                entity.Property(e => e.PagoAnual);
+                entity.Property(e => e.PagoAnual).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.TipoAnualidad);
 
-                entity.Property(e => e.PeriodoGracia);
+                entity.Property(e => e.PeriodoGracia).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Periodo);
 
@@ -182,9 +182,9 @@ namespace SmartSolution.Domain.EconomicContext
 
                 entity.Property(e => e.FrecuenciaTasa);
 
-                entity.Property(e => e.Crecimiento);
+                entity.Property(e => e.Crecimiento).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.FuturoGradiente);
+                entity.Property(e => e.FuturoGradiente).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.TipoDeCrecimiento);
 

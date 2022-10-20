@@ -19,7 +19,7 @@
         public string Discriminator { get; set; } = null!;
         public decimal? PagoAnual { get; set; }
         public int? TipoAnualidad { get; set; }
-        public int PeriodoGracia { get; set; }
+        public decimal PeriodoGracia { get; set; }
         public int? Periodo { get; set; }
         public int? TipoInteres { get; set; }
         public int? FrecuenciaTasa { get; set; }

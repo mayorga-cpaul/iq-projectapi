@@ -14,7 +14,7 @@ namespace SmartSolution.Application.Dtos.Economic
         public decimal NumPeriodos { get; set; }
         public decimal PagoAnual { get; set; }
         public TipoAnualidad TipoAnualidad { get; set; }
-        public int PeriodoGracia { get; set; }
+        public decimal PeriodoGracia { get; set; }
         public Periodo Periodo { get; set; }
         public decimal Crecimiento { get; set; }
         public TipoCrecimiento TipoDeCrecimiento { get; set; }
